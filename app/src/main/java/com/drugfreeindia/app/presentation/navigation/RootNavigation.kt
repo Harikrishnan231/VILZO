@@ -1,19 +1,29 @@
 package com.drugfreeindia.app.presentation.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Explore
+import androidx.compose.material.icons.outlined.HelpOutline
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Insights
+import androidx.compose.material.icons.outlined.PlayCircleOutline
 import androidx.compose.material.icons.rounded.Explore
+import androidx.compose.material.icons.rounded.Help
 import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.Security
-import androidx.compose.material.icons.rounded.SportsEsports
+import androidx.compose.material.icons.rounded.Insights
+import androidx.compose.material.icons.rounded.PlayCircle
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -22,263 +32,331 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.drugfreeindia.app.R
-import com.drugfreeindia.app.presentation.components.BottomNavItem
-import com.drugfreeindia.app.presentation.components.DfiBottomBar
+import com.drugfreeindia.app.presentation.components.BottomBar
+import com.drugfreeindia.app.presentation.components.BottomItem
+import com.drugfreeindia.app.presentation.components.OfflineBanner
+import com.drugfreeindia.app.presentation.explore.ActivityDetailScreen
 import com.drugfreeindia.app.presentation.explore.ExploreScreen
-import com.drugfreeindia.app.presentation.help.CentresMapScreen
-import com.drugfreeindia.app.presentation.help.DiscreetNotesScreen
-import com.drugfreeindia.app.presentation.help.EmergencyGuideScreen
-import com.drugfreeindia.app.presentation.help.HelpFriendGuideScreen
+import com.drugfreeindia.app.presentation.explore.MySubmissionsScreen
+import com.drugfreeindia.app.presentation.explore.SubmitActivityScreen
+import com.drugfreeindia.app.presentation.help.CentresScreen
+import com.drugfreeindia.app.presentation.help.DocScreen
 import com.drugfreeindia.app.presentation.help.HelpScreen
 import com.drugfreeindia.app.presentation.help.HelplinesScreen
+import com.drugfreeindia.app.presentation.help.LegalScreen
+import com.drugfreeindia.app.presentation.help.StudyPlannerScreen
 import com.drugfreeindia.app.presentation.help.TrustedContactsScreen
 import com.drugfreeindia.app.presentation.home.HomeScreen
 import com.drugfreeindia.app.presentation.impact.ImpactScreen
-import com.drugfreeindia.app.presentation.onboarding.OnboardingScreen
-import com.drugfreeindia.app.presentation.play.PlayHubScreen
-import com.drugfreeindia.app.presentation.play.story.StoryPlayScreen
-import com.drugfreeindia.app.presentation.play.story.StoryResultScreen
+import com.drugfreeindia.app.presentation.impact.ImpactViewModel
+import com.drugfreeindia.app.presentation.impact.SurveyScreen
+import com.drugfreeindia.app.presentation.onboarding.AuthScreen
+import com.drugfreeindia.app.presentation.onboarding.LocationScreen
+import com.drugfreeindia.app.presentation.onboarding.WelcomeScreen
+import com.drugfreeindia.app.presentation.play.GameScreen
+import com.drugfreeindia.app.presentation.play.PlayScreen
 import com.drugfreeindia.app.presentation.profile.ProfileScreen
 
 @Composable
 fun RootNavigation(
+    startDestination: String,
+    appVm: AppViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val isOnline by appVm.online.collectAsState()
+    val config by appVm.config.collectAsState()
 
-    val bottomBarItems = remember {
-        listOf(
-            BottomNavItem(Routes.Home, R.string.nav_home, Icons.Rounded.Home, Icons.Rounded.Home),
-            BottomNavItem(Routes.Play, R.string.nav_play, Icons.Rounded.SportsEsports, Icons.Rounded.SportsEsports),
-            BottomNavItem(Routes.Help, R.string.nav_help, Icons.Rounded.Security, Icons.Rounded.Security),
-            BottomNavItem(Routes.Explore, R.string.nav_explore, Icons.Rounded.Explore, Icons.Rounded.Explore),
-            BottomNavItem(Routes.Profile, R.string.nav_profile, Icons.Rounded.Person, Icons.Rounded.Person)
-        )
-    }
-
-    val showBottomBar = currentRoute in listOf(
-        Routes.Home,
-        Routes.Play,
-        Routes.Help,
-        Routes.Explore,
-        Routes.Profile,
-        Routes.CommunityImpact
+    val bottomItems = listOf(
+        BottomItem(stringResource(R.string.nav_home), Icons.Outlined.Home, Icons.Rounded.Home),
+        BottomItem(stringResource(R.string.nav_play), Icons.Outlined.PlayCircleOutline, Icons.Rounded.PlayCircle),
+        BottomItem(stringResource(R.string.nav_help), Icons.Outlined.HelpOutline, Icons.Rounded.Help),
+        BottomItem(stringResource(R.string.nav_explore), Icons.Outlined.Explore, Icons.Rounded.Explore),
+        BottomItem(stringResource(R.string.nav_impact), Icons.Outlined.Insights, Icons.Rounded.Insights)
     )
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        NavHost(
-            navController = navController,
-            startDestination = Routes.Splash,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            // Splash
-            composable(Routes.Splash) {
-                SplashScreen(
-                    onTimeout = {
-                        navController.navigate(Routes.Home) {
-                            popUpTo(Routes.Splash) { inclusive = true }
-                        }
-                    }
-                )
-            }
+    val currentTabIndex = when (currentRoute) {
+        Routes.HOME -> 0
+        Routes.PLAY -> 1
+        Routes.HELP -> 2
+        Routes.EXPLORE -> 3
+        Routes.IMPACT -> 4
+        else -> -1
+    }
 
-            // Onboarding
-            composable(Routes.Onboarding) {
-                OnboardingScreen(
-                    onFinish = {
-                        navController.navigate(Routes.Home) {
-                            popUpTo(Routes.Onboarding) { inclusive = true }
-                        }
-                    }
-                )
-            }
-
-            // Bottom Nav Destination 1: Home
-            composable(Routes.Home) {
-                HomeScreen(
-                    onNavigateToPlayStory = { storyId ->
-                        navController.navigate(Routes.storyPlay(storyId))
-                    },
-                    onNavigateToHelpTab = {
-                        navController.navigate(Routes.Help)
-                    },
-                    onNavigateToTrustedContacts = {
-                        navController.navigate(Routes.TrustedContacts)
-                    },
-                    onNavigateToHelplines = {
-                        navController.navigate(Routes.Helplines)
-                    },
-                    onNavigateToCentres = {
-                        navController.navigate(Routes.CentresMap)
-                    },
-                    onNavigateToExplore = {
-                        navController.navigate(Routes.Explore)
-                    },
-                    onNavigateToImpact = {
-                        navController.navigate(Routes.CommunityImpact)
-                    },
-                    onNavigateToProfile = {
-                        navController.navigate(Routes.Profile)
-                    }
-                )
-            }
-
-            // Bottom Nav Destination 2: Play Hub
-            composable(Routes.Play) {
-                PlayHubScreen(
-                    onPlayStory = { storyId ->
-                        navController.navigate(Routes.storyPlay(storyId))
-                    },
-                    onNavigateToLeaderboard = {
-                        navController.navigate(Routes.CommunityImpact)
-                    }
-                )
-            }
-
-            // Bottom Nav Destination 3: Get Help
-            composable(Routes.Help) {
-                HelpScreen(
-                    onNavigateToContacts = { navController.navigate(Routes.TrustedContacts) },
-                    onNavigateToCentres = { navController.navigate(Routes.CentresMap) },
-                    onNavigateToHelplines = { navController.navigate(Routes.Helplines) },
-                    onNavigateToEmergency = { navController.navigate(Routes.EmergencyGuide) },
-                    onNavigateToHelpFriend = { navController.navigate(Routes.HelpFriendGuide) },
-                    onQuickExit = {
-                        navController.navigate(Routes.DiscreetNotes) {
-                            popUpTo(0) { inclusive = true }
-                        }
-                    }
-                )
-            }
-
-            // Bottom Nav Destination 4: Explore
-            composable(Routes.Explore) {
-                ExploreScreen()
-            }
-
-            // Bottom Nav Destination 5: Profile
-            composable(Routes.Profile) {
-                ProfileScreen(
-                    onNavigateToTrustedContacts = { navController.navigate(Routes.TrustedContacts) },
-                    onDataWiped = {
-                        navController.navigate(Routes.Onboarding) {
-                            popUpTo(0) { inclusive = true }
-                        }
-                    }
-                )
-            }
-
-            // Sub-screen: Interactive Story Simulation Play
-            composable(
-                route = Routes.StoryPlay,
-                arguments = listOf(navArgument("storyId") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val storyId = backStackEntry.arguments?.getString("storyId") ?: "farewell_party"
-                StoryPlayScreen(
-                    onStoryFinished = { id, score, delta, badge ->
-                        navController.navigate(Routes.storyResult(id, score, delta, badge ?: "none")) {
-                            popUpTo(Routes.storyPlay(storyId)) { inclusive = true }
-                        }
-                    },
-                    onClose = { navController.popBackStack() }
-                )
-            }
-
-            // Sub-screen: Story Result
-            composable(
-                route = Routes.StoryResult,
-                arguments = listOf(
-                    navArgument("storyId") { type = NavType.StringType },
-                    navArgument("score") { type = NavType.IntType },
-                    navArgument("confidenceDelta") { type = NavType.IntType },
-                    navArgument("badgeId") { type = NavType.StringType }
-                )
-            ) { backStackEntry ->
-                val storyId = backStackEntry.arguments?.getString("storyId") ?: "farewell_party"
-                val score = backStackEntry.arguments?.getInt("score") ?: 18
-                val delta = backStackEntry.arguments?.getInt("confidenceDelta") ?: 6
-                val badgeId = backStackEntry.arguments?.getString("badgeId")
-
-                StoryResultScreen(
-                    storyId = storyId,
-                    score = score,
-                    delta = delta,
-                    badgeId = badgeId,
-                    onReplay = {
-                        navController.navigate(Routes.storyPlay(storyId)) {
-                            popUpTo(Routes.storyResult(storyId, score, delta, badgeId ?: "none")) { inclusive = true }
-                        }
-                    },
-                    onNextScenario = {
-                        navController.navigate(Routes.storyPlay("group_chat_dare")) {
-                            popUpTo(Routes.storyResult(storyId, score, delta, badgeId ?: "none")) { inclusive = true }
-                        }
-                    },
-                    onSaveToProgress = {
-                        navController.navigate(Routes.Home) {
-                            popUpTo(Routes.Home) { inclusive = true }
-                        }
-                    }
-                )
-            }
-
-            // Sub-screen: Trusted Contacts
-            composable(Routes.TrustedContacts) {
-                TrustedContactsScreen(onBack = { navController.popBackStack() })
-            }
-
-            // Sub-screen: Centres Map
-            composable(Routes.CentresMap) {
-                CentresMapScreen(onBack = { navController.popBackStack() })
-            }
-
-            // Sub-screen: Helplines
-            composable(Routes.Helplines) {
-                HelplinesScreen(onBack = { navController.popBackStack() })
-            }
-
-            // Sub-screen: Emergency Guide
-            composable(Routes.EmergencyGuide) {
-                EmergencyGuideScreen(onBack = { navController.popBackStack() })
-            }
-
-            // Sub-screen: Help a Friend Guide
-            composable(Routes.HelpFriendGuide) {
-                HelpFriendGuideScreen(onBack = { navController.popBackStack() })
-            }
-
-            // Sub-screen: Track Impact
-            composable(Routes.CommunityImpact) {
-                ImpactScreen()
-            }
-
-            // Sub-screen: Discreet Notes (Quick Exit)
-            composable(Routes.DiscreetNotes) {
-                DiscreetNotesScreen(
-                    onReturnToApp = {
-                        navController.navigate(Routes.Home) {
-                            popUpTo(0) { inclusive = true }
+    Scaffold(
+        bottomBar = {
+            if (currentTabIndex >= 0) {
+                BottomBar(
+                    items = bottomItems,
+                    selected = currentTabIndex,
+                    onSelect = { idx ->
+                        val targetRoute = Routes.tabs[idx]
+                        if (currentRoute != targetRoute) {
+                            navController.navigate(targetRoute) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
                     }
                 )
             }
         }
+    ) { innerPadding ->
+        Box(Modifier.fillMaxSize()) {
+            NavHost(
+                navController = navController,
+                startDestination = startDestination,
+                enterTransition = { EnterTransition.None },
+                exitTransition = { ExitTransition.None },
+                popEnterTransition = { EnterTransition.None },
+                popExitTransition = { ExitTransition.None }
+            ) {
+                // Onboarding
+                composable(Routes.WELCOME) {
+                    WelcomeScreen(
+                        onGetStarted = { navController.navigate(Routes.auth(signIn = false)) },
+                        onSignIn = { navController.navigate(Routes.auth(signIn = true)) },
+                        onNeedHelp = {
+                            navController.navigate(Routes.HELP) {
+                                popUpTo(Routes.WELCOME) { inclusive = true }
+                            }
+                        }
+                    )
+                }
 
-        // Floating Bottom Navigation Bar
-        if (showBottomBar) {
-            DfiBottomBar(
-                items = bottomBarItems,
-                currentRoute = currentRoute,
-                onItemClick = { route ->
-                    navController.navigate(route) {
-                        popUpTo(Routes.Home) { saveState = true }
-                        launchSingleTop = true
-                        restoreState = true
+                composable(
+                    route = Routes.AUTH,
+                    arguments = listOf(navArgument("signIn") { type = NavType.BoolType; defaultValue = false })
+                ) { entry ->
+                    val signIn = entry.arguments?.getBoolean("signIn") ?: false
+                    AuthScreen(
+                        signIn = signIn,
+                        onBack = { navController.popBackStack() },
+                        onDone = { needsLocation ->
+                            val dest = if (needsLocation) Routes.location(edit = false) else Routes.HOME
+                            navController.navigate(dest) {
+                                popUpTo(Routes.WELCOME) { inclusive = true }
+                            }
+                        },
+                        onGuest = {
+                            navController.navigate(Routes.location(edit = false)) {
+                                popUpTo(Routes.WELCOME) { inclusive = true }
+                            }
+                        },
+                        onLegal = { kind -> navController.navigate(Routes.legal(kind)) }
+                    )
+                }
+
+                composable(
+                    route = Routes.LOCATION,
+                    arguments = listOf(navArgument("edit") { type = NavType.BoolType; defaultValue = false })
+                ) { entry ->
+                    val editing = entry.arguments?.getBoolean("edit") ?: false
+                    LocationScreen(
+                        editing = editing,
+                        onBack = if (editing) { { navController.popBackStack() } } else null,
+                        onDone = {
+                            if (editing) {
+                                navController.popBackStack()
+                            } else {
+                                navController.navigate(Routes.HOME) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        }
+                    )
+                }
+
+                // Tabs
+                composable(Routes.HOME) {
+                    ColumnWithOffline(isOnline) {
+                        HomeScreen(
+                            contentPadding = innerPadding,
+                            onStartChallenge = { storyId -> navController.navigate(Routes.story(storyId)) },
+                            onProfile = { navController.navigate(Routes.PROFILE) },
+                            onExplore = {
+                                navController.navigate(Routes.EXPLORE) {
+                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            onImpact = {
+                                navController.navigate(Routes.IMPACT) {
+                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            onActivity = { actId -> navController.navigate(Routes.activity(actId)) }
+                        )
                     }
-                },
-                modifier = Modifier.align(Alignment.BottomCenter)
-            )
+                }
+
+                composable(Routes.PLAY) {
+                    ColumnWithOffline(isOnline) {
+                        PlayScreen(
+                            contentPadding = innerPadding,
+                            onOpenStory = { storyId -> navController.navigate(Routes.story(storyId)) }
+                        )
+                    }
+                }
+
+                composable(Routes.HELP) {
+                    ColumnWithOffline(isOnline) {
+                        HelpScreen(
+                            contentPadding = innerPadding,
+                            onContacts = { navController.navigate(Routes.CONTACTS) },
+                            onHelplines = { navController.navigate(Routes.HELPLINES) },
+                            onCentres = { navController.navigate(Routes.CENTRES) },
+                            onFriend = { navController.navigate(Routes.HELP_FRIEND) },
+                            onPrivacy = { navController.navigate(Routes.PRIVACY) },
+                            onQuickExit = {
+                                navController.navigate(Routes.QUICK_EXIT) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        )
+                    }
+                }
+
+                composable(Routes.EXPLORE) {
+                    ColumnWithOffline(isOnline) {
+                        ExploreScreen(
+                            contentPadding = innerPadding,
+                            onActivity = { actId -> navController.navigate(Routes.activity(actId)) },
+                            onSubmit = { navController.navigate(Routes.SUBMIT_ACTIVITY) },
+                            onMine = { navController.navigate(Routes.MY_SUBMISSIONS) }
+                        )
+                    }
+                }
+
+                composable(Routes.IMPACT) {
+                    val impactVm: ImpactViewModel = hiltViewModel()
+                    ColumnWithOffline(isOnline) {
+                        ImpactScreen(
+                            contentPadding = innerPadding,
+                            onSurvey = { navController.navigate(Routes.SURVEY) },
+                            onSignIn = { navController.navigate(Routes.auth(signIn = true)) },
+                            vm = impactVm
+                        )
+                    }
+                }
+
+                // Story gameplay & result
+                composable(
+                    route = Routes.STORY,
+                    arguments = listOf(navArgument("id") { type = NavType.StringType })
+                ) {
+                    GameScreen(onClose = { navController.popBackStack() })
+                }
+
+                // Profile
+                composable(Routes.PROFILE) {
+                    ProfileScreen(
+                        onBack = { navController.popBackStack() },
+                        onEditLocation = { navController.navigate(Routes.location(edit = true)) },
+                        onContacts = { navController.navigate(Routes.CONTACTS) },
+                        onPrivacy = { navController.navigate(Routes.PRIVACY) },
+                        onSignIn = { navController.navigate(Routes.auth(signIn = true)) },
+                        onSignedOut = {
+                            navController.navigate(Routes.WELCOME) {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
+                    )
+                }
+
+                // Help sub-screens
+                composable(Routes.CONTACTS) {
+                    TrustedContactsScreen(onBack = { navController.popBackStack() })
+                }
+
+                composable(Routes.HELPLINES) {
+                    HelplinesScreen(onBack = { navController.popBackStack() })
+                }
+
+                composable(Routes.CENTRES) {
+                    CentresScreen(onBack = { navController.popBackStack() })
+                }
+
+                composable(Routes.HELP_FRIEND) {
+                    DocScreen(
+                        title = "Help a friend",
+                        asset = "help_a_friend.md",
+                        imageKey = "help_hero",
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+
+                composable(Routes.PRIVACY) {
+                    DocScreen(
+                        title = "Privacy & safety",
+                        asset = "privacy_policy.md",
+                        imageKey = null,
+                        onBack = { navController.popBackStack() }
+                    )
+                }
+
+                // Quick exit target screen (Study Planner)
+                composable(Routes.QUICK_EXIT) {
+                    StudyPlannerScreen()
+                }
+
+                // Explore sub-screens
+                composable(
+                    route = Routes.ACTIVITY,
+                    arguments = listOf(navArgument("id") { type = NavType.StringType })
+                ) { entry ->
+                    val actId = entry.arguments?.getString("id") ?: ""
+                    ActivityDetailScreen(id = actId, onBack = { navController.popBackStack() })
+                }
+
+                composable(Routes.SUBMIT_ACTIVITY) {
+                    SubmitActivityScreen(
+                        onBack = { navController.popBackStack() },
+                        onDone = { navController.popBackStack() }
+                    )
+                }
+
+                composable(Routes.MY_SUBMISSIONS) {
+                    MySubmissionsScreen(onBack = { navController.popBackStack() })
+                }
+
+                // Survey
+                composable(Routes.SURVEY) {
+                    val impactVm: ImpactViewModel = hiltViewModel()
+                    SurveyScreen(
+                        onBack = { navController.popBackStack() },
+                        vm = impactVm
+                    )
+                }
+
+                // Legal placeholder
+                composable(
+                    route = Routes.LEGAL,
+                    arguments = listOf(navArgument("kind") { type = NavType.StringType })
+                ) { entry ->
+                    val kind = entry.arguments?.getString("kind") ?: "privacy"
+                    val url = if (kind == "terms") config.termsUrl else config.privacyPolicyUrl
+                    LegalScreen(kind = kind, url = url, onBack = { navController.popBackStack() })
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ColumnWithOffline(isOnline: Boolean, content: @Composable () -> Unit) {
+    androidx.compose.foundation.layout.Column(Modifier.fillMaxSize()) {
+        OfflineBanner(visible = !isOnline)
+        Box(Modifier.weight(1f)) {
+            content()
         }
     }
 }

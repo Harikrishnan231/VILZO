@@ -1,69 +1,113 @@
 package com.drugfreeindia.app.data.local
 
+import androidx.room.Dao
 import androidx.room.Database
+import androidx.room.Entity
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.PrimaryKey
+import androidx.room.Query
 import androidx.room.RoomDatabase
-import com.drugfreeindia.app.data.local.dao.ActivityDao
-import com.drugfreeindia.app.data.local.dao.BadgeDao
-import com.drugfreeindia.app.data.local.dao.CentreDao
-import com.drugfreeindia.app.data.local.dao.CollegeStatDao
-import com.drugfreeindia.app.data.local.dao.EventDao
-import com.drugfreeindia.app.data.local.dao.HelplineDao
-import com.drugfreeindia.app.data.local.dao.MentorDao
-import com.drugfreeindia.app.data.local.dao.StoryDao
-import com.drugfreeindia.app.data.local.dao.StoryProgressDao
-import com.drugfreeindia.app.data.local.dao.StreakDao
-import com.drugfreeindia.app.data.local.dao.SurveyDao
-import com.drugfreeindia.app.data.local.dao.TrustedContactDao
-import com.drugfreeindia.app.data.local.dao.UserProfileDao
-import com.drugfreeindia.app.data.local.entities.ActivityEntity
-import com.drugfreeindia.app.data.local.entities.BadgeEntity
-import com.drugfreeindia.app.data.local.entities.CentreEntity
-import com.drugfreeindia.app.data.local.entities.CollegeStatEntity
-import com.drugfreeindia.app.data.local.entities.EventEntity
-import com.drugfreeindia.app.data.local.entities.HelplineEntity
-import com.drugfreeindia.app.data.local.entities.MentorEntity
-import com.drugfreeindia.app.data.local.entities.ScoreEventEntity
-import com.drugfreeindia.app.data.local.entities.StoryEntity
-import com.drugfreeindia.app.data.local.entities.StoryProgressEntity
-import com.drugfreeindia.app.data.local.entities.StreakEntity
-import com.drugfreeindia.app.data.local.entities.SurveyQuestionEntity
-import com.drugfreeindia.app.data.local.entities.SurveyResponseEntity
-import com.drugfreeindia.app.data.local.entities.TrustedContactEntity
-import com.drugfreeindia.app.data.local.entities.UserProfileEntity
+import kotlinx.coroutines.flow.Flow
+
+/**
+ * Offline cache of reference/content data fetched from Supabase (cities, colleges,
+ * helplines, centres, stories, activities, badges, config). Stored as JSON per key so
+ * the cache always mirrors the server DTOs exactly.
+ */
+@Entity(tableName = "cache_entries")
+data class CacheEntry(
+    @PrimaryKey val key: String,
+    val json: String,
+    val updatedAt: Long = System.currentTimeMillis()
+)
+
+/** Answers given while offline, replayed through the RPCs in order when back online. */
+@Entity(tableName = "pending_choices")
+data class PendingChoice(
+    @PrimaryKey(autoGenerate = true) val seq: Long = 0,
+    val userId: String,
+    val storyId: String,
+    val localAttemptId: String,
+    val sceneId: String,
+    val choiceId: String,
+    val completesAttempt: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()
+)
+
+/** Device-side record of a played scenario, so Play shows completion even before sync. */
+@Entity(tableName = "local_results")
+data class LocalResult(
+    @PrimaryKey val storyId: String,
+    val bestPoints: Int,
+    val completedAt: Long,
+    val synced: Boolean
+)
+
+@Dao
+interface CacheDao {
+    @Query("SELECT * FROM cache_entries WHERE `key` = :key")
+    suspend fun get(key: String): CacheEntry?
+
+    @Query("SELECT * FROM cache_entries WHERE `key` = :key")
+    fun observe(key: String): Flow<CacheEntry?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun put(entry: CacheEntry)
+
+    @Query("DELETE FROM cache_entries WHERE `key` LIKE 'user:%'")
+    suspend fun clearUserScoped()
+
+    @Query("DELETE FROM cache_entries")
+    suspend fun clearAll()
+}
+
+@Dao
+interface PendingDao {
+    @Insert
+    suspend fun add(p: PendingChoice)
+
+    @Query("SELECT * FROM pending_choices WHERE userId = :userId ORDER BY seq ASC")
+    suspend fun all(userId: String): List<PendingChoice>
+
+    @Query("SELECT COUNT(*) FROM pending_choices")
+    fun count(): Flow<Int>
+
+    @Query("DELETE FROM pending_choices WHERE localAttemptId = :attempt")
+    suspend fun deleteAttempt(attempt: String)
+
+    @Query("DELETE FROM pending_choices")
+    suspend fun clear()
+}
+
+@Dao
+interface ResultDao {
+    @Query("SELECT * FROM local_results")
+    fun observeAll(): Flow<List<LocalResult>>
+
+    @Query("SELECT * FROM local_results WHERE storyId = :id")
+    suspend fun get(id: String): LocalResult?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun put(r: LocalResult)
+
+    @Query("DELETE FROM local_results")
+    suspend fun clear()
+}
 
 @Database(
-    entities = [
-        UserProfileEntity::class,
-        StoryEntity::class,
-        StoryProgressEntity::class,
-        ScoreEventEntity::class,
-        BadgeEntity::class,
-        StreakEntity::class,
-        TrustedContactEntity::class,
-        CentreEntity::class,
-        HelplineEntity::class,
-        ActivityEntity::class,
-        EventEntity::class,
-        MentorEntity::class,
-        SurveyQuestionEntity::class,
-        SurveyResponseEntity::class,
-        CollegeStatEntity::class
-    ],
+    entities = [CacheEntry::class, PendingChoice::class, LocalResult::class],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun userProfileDao(): UserProfileDao
-    abstract fun storyDao(): StoryDao
-    abstract fun storyProgressDao(): StoryProgressDao
-    abstract fun badgeDao(): BadgeDao
-    abstract fun streakDao(): StreakDao
-    abstract fun trustedContactDao(): TrustedContactDao
-    abstract fun centreDao(): CentreDao
-    abstract fun helplineDao(): HelplineDao
-    abstract fun activityDao(): ActivityDao
-    abstract fun eventDao(): EventDao
-    abstract fun mentorDao(): MentorDao
-    abstract fun surveyDao(): SurveyDao
-    abstract fun collegeStatDao(): CollegeStatDao
+    abstract fun cache(): CacheDao
+    abstract fun pending(): PendingDao
+    abstract fun results(): ResultDao
+
+    companion object {
+        /** New file name; the legacy v1 DB (`drug_free_india.db`) is migrated then deleted. */
+        const val NAME = "dfi_cache_v2.db"
+        const val LEGACY_NAME = "drug_free_india.db"
+    }
 }

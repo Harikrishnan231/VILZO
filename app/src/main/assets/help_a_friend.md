@@ -1,41 +1,34 @@
-# How to Support a Friend: Practical, Compassionate Guidance
+# Helping a friend
 
-When someone you care about begins experimenting with dangerous substances or seems overwhelmed by peer pressure, your response can make a profound difference. Here is how to be a steady anchor:
+If you're worried about a friend, you don't need to have all the answers. Being calm, kind and there for them already helps.
 
----
+## Pick a good moment
+- Talk somewhere private, when neither of you is rushed, upset or under the influence.
+- Start with what you've noticed and how you feel: "I've noticed you seem stressed lately, and I care about you."
 
-### 1. Listen Actively Without Interruption
-- **Create a calm, private space:** Speak when neither of you is in a rush, angry, or under the influence.
-- **Adopt an open posture:** Let them speak freely about what is going on without interrupting or lecturing them.
-- **Reflect back what you hear:** Use phrases like *"It sounds like you have been carrying an enormous amount of stress lately."*
+## Listen more than you talk
+- Let them speak without interrupting or lecturing.
+- Repeat back what you hear: "It sounds like things have been really hard."
+- It's okay to sit with silence. You don't have to fix everything in one conversation.
 
----
+## Avoid blame and threats
+- Shaming or ultimatums usually make people hide things.
+- Keep the focus on the person, not the label. They're still your friend.
+- Say what you'd like to see, not what they're doing wrong: "I'd really like us to do something else this weekend."
 
-### 2. Never Judge, Shame, or Threaten
-- Shaming makes people withdraw and hide risky behaviours.
-- Separate the person from the action: They are still your friend, even if they made an unwise choice under social pressure.
-- Avoid ultimatum phrases like *"If you do this again, I won't talk to you."* Instead, say: *"I care about your safety and your future too much to watch you hurt yourself."*
+## Make a simple plan together
+- Agree on a code word or message that means "call me with an excuse to leave".
+- Suggest places and plans where there's less pressure: sport, music, study groups, food.
 
----
+## Encourage professional support
+- You're a friend, not a counsellor. It's okay to say, "I think talking to someone trained could really help."
+- Free helplines and support centres are listed in **Get Help** in this app. You can offer to sit with them while they call.
+- A trusted adult, teacher, college counsellor or doctor can also help.
 
-### 3. Help Them Build an "Exit Plan"
-- Agree on a safe code word or silent text (e.g., sending a single emoji) that means *"Call me right now with an excuse to pull me away."*
-- Offer to accompany them to neutral places: coffee shops, libraries, sports grounds, or art circles where there is zero temptation.
+## If someone is in immediate danger
+- Call **112** (India's emergency number) or take them to the nearest hospital.
+- Stay with them if it's safe to do so.
 
----
-
-### 4. Connect Them with Confidential Professional Support
-- You do not have to carry this alone. You are a supportive friend, not a doctor or therapist.
-- Gently remind them of free, confidential resources:
-  - **MANAS National Toll-Free Anti-Drug Line (1933)**
-  - **Tele-MANAS Mental Health Support (14416)**
-  - **National De-Addiction Helpline (14446)**
-- Offer to sit beside them while they make the call if they feel anxious.
-
----
-
-### 5. In an Acute Crisis or Medical Emergency
-- If your friend is unresponsive, breathing irregularly, vomiting while semi-conscious, or experiencing seizures:
-  - **Dial 112 immediately.**
-  - Turn them onto their side into the **Recovery Position** to keep their airway open.
-  - Never leave them alone to "sleep it off".
+## Look after yourself too
+- Supporting someone can be heavy. Talk to someone you trust about how you're feeling.
+- You can use the same helplines for yourself.

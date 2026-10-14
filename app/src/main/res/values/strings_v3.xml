@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings added in the v3 redesign. English is the fallback for every locale. -->
+<resources>
+    <string name="nav_impact">Impact</string>
+    <string name="v3_tagline">Healthier Minds. Safer Choices. Stronger Communities.</string>
+    <string name="v3_get_started">Get Started</string>
+    <string name="v3_have_account">Already have an account?</string>
+    <string name="v3_sign_in">Sign in</string>
+    <string name="v3_need_support">Need support now? Get help without an account</string>
+    <string name="v3_get_help">Get Help</string>
+    <string name="v3_get_help_sub">Private and free. Choose what you need.</string>
+    <string name="v3_offline">You\'re offline. Showing saved information.</string>
+</resources>

@@ -1,0 +1,72 @@
+{
+  "cities": [
+    {"slug": "puducherry", "name": "Puducherry", "state": "Puducherry", "sort_order": 1},
+    {"slug": "karaikal", "name": "Karaikal", "state": "Puducherry", "sort_order": 2},
+    {"slug": "chennai", "name": "Chennai", "state": "Tamil Nadu", "sort_order": 3},
+    {"slug": "coimbatore", "name": "Coimbatore", "state": "Tamil Nadu", "sort_order": 4},
+    {"slug": "bengaluru", "name": "Bengaluru", "state": "Karnataka", "sort_order": 5},
+    {"slug": "hyderabad", "name": "Hyderabad", "state": "Telangana", "sort_order": 6},
+    {"slug": "kochi", "name": "Kochi", "state": "Kerala", "sort_order": 7},
+    {"slug": "mumbai", "name": "Mumbai", "state": "Maharashtra", "sort_order": 8},
+    {"slug": "pune", "name": "Pune", "state": "Maharashtra", "sort_order": 9},
+    {"slug": "delhi", "name": "Delhi", "state": "Delhi", "sort_order": 10},
+    {"slug": "ghaziabad", "name": "Ghaziabad", "state": "Uttar Pradesh", "sort_order": 11},
+    {"slug": "kolkata", "name": "Kolkata", "state": "West Bengal", "sort_order": 12}
+  ],
+  "colleges": [
+    {"city": "puducherry", "name": "Pondicherry University"},
+    {"city": "puducherry", "name": "Puducherry Technological University"},
+    {"city": "puducherry", "name": "Sri Manakula Vinayagar Engineering College"},
+    {"city": "puducherry", "name": "Jawaharlal Institute of Postgraduate Medical Education and Research (JIPMER)"},
+    {"city": "karaikal", "name": "National Institute of Technology Puducherry"},
+    {"city": "chennai", "name": "Indian Institute of Technology Madras"},
+    {"city": "chennai", "name": "Anna University, Guindy Campus"},
+    {"city": "chennai", "name": "Loyola College"},
+    {"city": "chennai", "name": "Madras Christian College"},
+    {"city": "bengaluru", "name": "Indian Institute of Science"},
+    {"city": "bengaluru", "name": "Bangalore University"},
+    {"city": "bengaluru", "name": "Christ (Deemed to be University)"},
+    {"city": "hyderabad", "name": "University of Hyderabad"},
+    {"city": "hyderabad", "name": "Osmania University"},
+    {"city": "mumbai", "name": "University of Mumbai"},
+    {"city": "mumbai", "name": "Indian Institute of Technology Bombay"},
+    {"city": "pune", "name": "Savitribai Phule Pune University"},
+    {"city": "delhi", "name": "University of Delhi"},
+    {"city": "delhi", "name": "Jawaharlal Nehru University"},
+    {"city": "delhi", "name": "Indian Institute of Technology Delhi"},
+    {"city": "kolkata", "name": "University of Calcutta"},
+    {"city": "kochi", "name": "Cochin University of Science and Technology"}
+  ],
+  "helplines": [
+    {"name": "Emergency Response Support System (ERSS)", "number": "112", "description": "India's single emergency number for police, fire and ambulance.", "hours": "24x7", "is_emergency": true, "is_verified": false, "sort_order": 1},
+    {"name": "Tele-MANAS", "number": "14416", "description": "Free tele mental-health counselling and support.", "hours": "24x7", "is_emergency": false, "is_verified": false, "sort_order": 2},
+    {"name": "Drug-dependence helpline (from project concept)", "number": "1933", "description": "Listed in the project concept as a national drug-dependence helpline. Confirm the official operator, hours and languages before release.", "hours": null, "is_emergency": false, "is_verified": false, "sort_order": 3},
+    {"name": "De-addiction helpline (from project concept)", "number": "14446", "description": "Listed in the project concept as a de-addiction helpline. Confirm the official operator, hours and languages before release.", "hours": null, "is_emergency": false, "is_verified": false, "sort_order": 4}
+  ],
+  "centres": [
+    {"city": "bengaluru", "name": "NIMHANS, Centre for Addiction Medicine", "type": "government"},
+    {"city": "ghaziabad", "name": "National Drug Dependence Treatment Centre (NDDTC), AIIMS", "type": "government"},
+    {"city": "chennai", "name": "Institute of Mental Health, Kilpauk", "type": "government"},
+    {"city": "puducherry", "name": "JIPMER, Department of Psychiatry", "type": "hospital"}
+  ],
+  "badges": [
+    {"id": "first_steps", "name": "First Steps", "description": "Completed your first scenario.", "icon_key": "badge_first_steps", "sort_order": 1},
+    {"id": "calm_no", "name": "Calm No", "description": "Said no calmly and respectfully.", "icon_key": "badge_calm_no", "sort_order": 2},
+    {"id": "think_first", "name": "Think First", "description": "Changed the plan instead of going along.", "icon_key": "badge_think_first", "sort_order": 3},
+    {"id": "exit_plan", "name": "Exit Plan", "description": "Stepped away from a pressure situation.", "icon_key": "badge_exit_plan", "sort_order": 4},
+    {"id": "trusted_friend", "name": "Trusted Friend", "description": "Reached out to someone you trust.", "icon_key": "badge_trusted_friend", "sort_order": 5},
+    {"id": "streak_7", "name": "7-Day Streak", "description": "Practised on 7 days in a row.", "icon_key": "badge_streak_7", "sort_order": 6},
+    {"id": "team_player", "name": "Team Player", "description": "Unlocks with the upcoming multiplayer modes.", "icon_key": "badge_team_player", "sort_order": 7}
+  ],
+  "config": {
+    "min_cohort": 10,
+    "levels": [
+      {"level": 1, "name": "Starter", "min_points": 0},
+      {"level": 2, "name": "Steady", "min_points": 30},
+      {"level": 3, "name": "Confident", "min_points": 80},
+      {"level": 4, "name": "Champion", "min_points": 150}
+    ],
+    "privacy_policy_url": null,
+    "terms_url": null
+  }
+}

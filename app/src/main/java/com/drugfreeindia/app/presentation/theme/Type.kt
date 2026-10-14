@@ -9,9 +9,11 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.drugfreeindia.app.R
 
+/** Bundled Plus Jakarta Sans (static TTFs in res/font). */
 val PlusJakartaSans = FontFamily(
     Font(R.font.plus_jakarta_sans_regular, FontWeight.Normal),
     Font(R.font.plus_jakarta_sans_medium, FontWeight.Medium),
@@ -20,80 +22,62 @@ val PlusJakartaSans = FontFamily(
     Font(R.font.plus_jakarta_sans_extrabold, FontWeight.ExtraBold)
 )
 
-val DfiFontFamily = PlusJakartaSans
-
-private val DefaultLineHeightStyle = LineHeightStyle(
-    alignment = LineHeightStyle.Alignment.Center,
-    trim = LineHeightStyle.Trim.Both
-)
+private val LineStyle = LineHeightStyle(LineHeightStyle.Alignment.Center, LineHeightStyle.Trim.None)
 
 @Suppress("DEPRECATION")
-private val DefaultPlatformTextStyle = PlatformTextStyle(
-    includeFontPadding = false
-)
+private val NoFontPadding = PlatformTextStyle(includeFontPadding = false)
 
-private fun dfiStyle(
-    fontSize: androidx.compose.ui.unit.TextUnit,
-    lineHeight: androidx.compose.ui.unit.TextUnit,
-    fontWeight: FontWeight,
-    letterSpacing: androidx.compose.ui.unit.TextUnit = 0.sp,
-    fontFeatureSettings: String? = null
-): TextStyle = TextStyle(
+private fun style(
+    size: TextUnit,
+    line: TextUnit,
+    weight: FontWeight,
+    tracking: TextUnit = 0.sp,
+    features: String? = null
+) = TextStyle(
     fontFamily = PlusJakartaSans,
-    fontSize = fontSize,
-    lineHeight = lineHeight,
-    fontWeight = fontWeight,
-    letterSpacing = letterSpacing,
-    color = DfiInk,
-    lineHeightStyle = DefaultLineHeightStyle,
-    platformStyle = DefaultPlatformTextStyle,
-    fontFeatureSettings = fontFeatureSettings
+    fontSize = size,
+    lineHeight = line,
+    fontWeight = weight,
+    letterSpacing = tracking,
+    lineHeightStyle = LineStyle,
+    platformStyle = NoFontPadding,
+    fontFeatureSettings = features
 )
 
+/** Type scale from master prompt §4.2. */
 @Immutable
 data class DfiTypography(
-    // Section 2.2 exact scale
-    val screenTitle: TextStyle = dfiStyle(28.sp, 34.sp, FontWeight.Bold, (-0.4).sp),
-    val display: TextStyle = dfiStyle(26.sp, 32.sp, FontWeight.Bold, (-0.3).sp),
-    val titleL: TextStyle = dfiStyle(20.sp, 26.sp, FontWeight.SemiBold, (-0.2).sp),
-    val titleM: TextStyle = dfiStyle(17.sp, 24.sp, FontWeight.SemiBold, 0.sp),
-    val titleS: TextStyle = dfiStyle(15.sp, 20.sp, FontWeight.SemiBold, 0.sp),
-    val bodyL: TextStyle = dfiStyle(15.sp, 22.sp, FontWeight.Normal, 0.sp),
-    val bodyDialogue: TextStyle = dfiStyle(17.sp, 26.sp, FontWeight.Medium, 0.sp),
-    val bodyM: TextStyle = dfiStyle(14.sp, 20.sp, FontWeight.Normal, 0.sp),
-    val labelL: TextStyle = dfiStyle(14.sp, 18.sp, FontWeight.SemiBold, 0.1.sp),
-    val labelM: TextStyle = dfiStyle(12.sp, 16.sp, FontWeight.Medium, 0.2.sp),
-    val caption: TextStyle = dfiStyle(11.sp, 14.sp, FontWeight.Medium, 0.3.sp),
-    val statXL: TextStyle = dfiStyle(44.sp, 48.sp, FontWeight.ExtraBold, (-1.0).sp, fontFeatureSettings = "tnum"),
-    val statL: TextStyle = dfiStyle(30.sp, 34.sp, FontWeight.Bold, (-0.5).sp, fontFeatureSettings = "tnum"),
-
-    // Compatibility aliases
-    val titleLarge: TextStyle = dfiStyle(24.sp, 32.sp, FontWeight.SemiBold, (-0.3).sp),
-    val titleMedium: TextStyle = dfiStyle(20.sp, 28.sp, FontWeight.SemiBold, (-0.2).sp),
-    val titleSmall: TextStyle = dfiStyle(16.sp, 24.sp, FontWeight.SemiBold, 0.sp),
-    val bodyLarge: TextStyle = dfiStyle(16.sp, 24.sp, FontWeight.Normal, 0.sp),
-    val bodyMedium: TextStyle = dfiStyle(14.sp, 20.sp, FontWeight.Normal, 0.sp),
-    val label: TextStyle = dfiStyle(12.sp, 16.sp, FontWeight.Medium, 0.2.sp),
-    val stat: TextStyle = dfiStyle(36.sp, 40.sp, FontWeight.Bold, (-0.5).sp, fontFeatureSettings = "tnum")
+    val screenTitle: TextStyle = style(28.sp, 34.sp, FontWeight.Bold, (-0.4).sp),
+    val sectionTitle: TextStyle = style(18.sp, 24.sp, FontWeight.SemiBold),
+    val cardTitle: TextStyle = style(16.sp, 22.sp, FontWeight.SemiBold),
+    val body: TextStyle = style(15.sp, 22.sp, FontWeight.Normal),
+    val bodySmall: TextStyle = style(14.sp, 20.sp, FontWeight.Normal),
+    val caption: TextStyle = style(12.sp, 16.sp, FontWeight.Medium),
+    val captionLarge: TextStyle = style(13.sp, 18.sp, FontWeight.Medium),
+    val label: TextStyle = style(15.sp, 20.sp, FontWeight.SemiBold),
+    val labelSmall: TextStyle = style(14.sp, 20.sp, FontWeight.SemiBold),
+    val dialogue: TextStyle = style(17.sp, 24.sp, FontWeight.Medium),
+    val statLarge: TextStyle = style(44.sp, 48.sp, FontWeight.ExtraBold, (-1).sp, "tnum"),
+    val stat: TextStyle = style(28.sp, 32.sp, FontWeight.Bold, (-0.4).sp, "tnum"),
+    val heroTitle: TextStyle = style(24.sp, 30.sp, FontWeight.Bold, (-0.3).sp)
 )
 
 val LocalDfiTypography = staticCompositionLocalOf { DfiTypography() }
 
-fun createMaterialTypography(dfi: DfiTypography = DfiTypography()): Typography = Typography(
-    displayLarge = dfi.display,
-    displayMedium = dfi.display,
-    displaySmall = dfi.screenTitle,
-    headlineLarge = dfi.screenTitle,
-    headlineMedium = dfi.titleLarge,
-    headlineSmall = dfi.titleL,
-    titleLarge = dfi.titleL,
-    titleMedium = dfi.titleM,
-    titleSmall = dfi.titleS,
-    bodyLarge = dfi.bodyL,
-    bodyMedium = dfi.bodyM,
-    bodySmall = dfi.caption,
-    labelLarge = dfi.labelL,
-    labelMedium = dfi.labelM,
-    labelSmall = dfi.caption
+fun materialTypography(t: DfiTypography) = Typography(
+    displayLarge = t.statLarge,
+    displayMedium = t.stat,
+    displaySmall = t.screenTitle,
+    headlineLarge = t.screenTitle,
+    headlineMedium = t.heroTitle,
+    headlineSmall = t.sectionTitle,
+    titleLarge = t.sectionTitle,
+    titleMedium = t.cardTitle,
+    titleSmall = t.labelSmall,
+    bodyLarge = t.body,
+    bodyMedium = t.bodySmall,
+    bodySmall = t.caption,
+    labelLarge = t.label,
+    labelMedium = t.captionLarge,
+    labelSmall = t.caption
 )
-

@@ -1,33 +1,31 @@
-# Privacy Centre: Plain-Language Principles
+# Privacy & safety
 
-Your privacy, safety, and psychological security are paramount. **Drug-Free India** is engineered from the ground up to protect your anonymity:
+Drug-Free India is private by design. This page explains, in plain language, what the app stores, where, and who can see it.
 
----
+## You can use Help without an account
+- Helplines, support centres, trusted contacts and the help-a-friend guide all work without signing in.
+- Nobody is asked about drug use or health history, anywhere in the app.
 
-### 1. No Account, Phone Number, or Real Name Required
-- You are assigned a randomly generated anonymous device identifier upon first launch.
-- You choose a playful nickname (like *Calm Falcon*). We never ask for your real name, email address, or phone number.
+## Stored only on this phone
+- **Trusted contacts** are encrypted on your device using an Android Keystore key. They are never uploaded.
+- **Approximate location**, if you choose to use it, is used once on the phone to suggest the nearest city. Coordinates are never sent to our servers.
+- Practice played without an account stays on this device.
 
----
+## Stored in your account (if you sign in)
+- Your name, phone or email (used to sign in), city, and college (or the college name you typed).
+- Your scenario answers and points, so your progress and badges are kept. Only you can read your own records.
+- Activities you join or submit.
 
-### 2. Device-Only Encrypted Storage
-- Trusted contacts that you choose to store are encrypted on your local device hardware using **Android Keystore (AES-256-GCM)**.
-- Contacts are never uploaded to any remote server, third-party cloud, or shared with advertisers.
+## Anonymous, aggregated insights
+- The monthly pulse survey stores answers without your name, phone or a timestamp linked to you.
+- Community and college views only show totals, and only after enough people have answered (the minimum is set on the server).
+- You can turn off "Include my college in aggregate stats" in Profile.
 
----
+## Your controls
+- **Sign out** removes your session from this phone.
+- **Delete account** permanently deletes your account and the records linked to it on the server, and wipes local data.
+- **Quick exit** in Help switches to a neutral screen. It does not delete your phone's history.
 
-### 3. Location Stays on Your Device
-- Finding nearby centres uses your approximate location strictly on your device to calculate distance.
-- Your location coordinates are never logged, tracked, or sent to any central database.
-
----
-
-### 4. 100% Anonymous Pulse Surveys
-- Monthly feedback questions gather collective insights to help colleges and NGOs understand student needs.
-- Individual responses are stripped of all metadata.
-- Insights are only presented in cohorts of 20 or more participants, ensuring complete mathematical anonymity.
-
----
-
-### 5. Instant "Delete Everything" Wipe
-- You have absolute control. You can tap **Delete All Data** in Profile & Settings at any time to permanently wipe your database, streak, badges, and cached preferences from the device.
+## What the app does not do
+- It does not contact emergency services or anyone else for you. Calls open in your phone's dialer, and you decide whether to place them.
+- It does not diagnose, treat, or label anyone.

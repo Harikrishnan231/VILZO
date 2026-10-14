@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_impact">प्रभाव</string>
+    <string name="v3_tagline">स्वस्थ मन। सुरक्षित विकल्प। मज़बूत समुदाय।</string>
+    <string name="v3_get_started">शुरू करें</string>
+    <string name="v3_have_account">पहले से खाता है?</string>
+    <string name="v3_sign_in">साइन इन करें</string>
+    <string name="v3_need_support">अभी मदद चाहिए? बिना खाते के सहायता पाएँ</string>
+    <string name="v3_get_help">सहायता पाएँ</string>
+    <string name="v3_get_help_sub">निजी और निःशुल्क। जो चाहिए वह चुनें।</string>
+    <string name="v3_offline">आप ऑफ़लाइन हैं। सहेजी गई जानकारी दिखाई जा रही है।</string>
+</resources>

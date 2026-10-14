@@ -6,19 +6,20 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/** Radii from §4.3 — deliberately not one radius for everything. */
 @Immutable
 data class DfiShapes(
-    val heroCard: RoundedCornerShape = RoundedCornerShape(28.dp),
-    val card: RoundedCornerShape = RoundedCornerShape(24.dp),
-    val tile: RoundedCornerShape = RoundedCornerShape(20.dp),
-    val iconTile: RoundedCornerShape = RoundedCornerShape(14.dp),
+    val hero: RoundedCornerShape = RoundedCornerShape(24.dp),
+    val card: RoundedCornerShape = RoundedCornerShape(18.dp),
+    val tile: RoundedCornerShape = RoundedCornerShape(12.dp),
+    val input: RoundedCornerShape = RoundedCornerShape(14.dp),
+    val button: RoundedCornerShape = RoundedCornerShape(14.dp),
+    val pill: RoundedCornerShape = RoundedCornerShape(percent = 50),
     val chip: RoundedCornerShape = RoundedCornerShape(10.dp),
-    val input: RoundedCornerShape = RoundedCornerShape(16.dp),
-    val button: RoundedCornerShape = RoundedCornerShape(100.dp), // pill
-    val pill: RoundedCornerShape = RoundedCornerShape(100.dp),
-    val bottomSheet: RoundedCornerShape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+    val sheet: RoundedCornerShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
 )
 
+/** 4dp grid. */
 @Immutable
 data class DfiSpacing(
     val xxs: Dp = 4.dp,
@@ -27,16 +28,10 @@ data class DfiSpacing(
     val m: Dp = 16.dp,
     val l: Dp = 20.dp,
     val xl: Dp = 24.dp,
-    val xxl: Dp = 28.dp,
-    val sectionGap: Dp = 28.dp,
-    val sectionTitleToContent: Dp = 12.dp,
-    val cardGap: Dp = 12.dp,
-    val cardInnerPadding: Dp = 20.dp,
-    val smallTilePadding: Dp = 16.dp,
-    val screenHorizontal: Dp = 20.dp,
-    val bentoGap: Dp = 12.dp
+    val section: Dp = 28.dp,
+    val screen: Dp = 20.dp,
+    val cardGap: Dp = 12.dp
 )
 
 val LocalDfiShapes = staticCompositionLocalOf { DfiShapes() }
 val LocalDfiSpacing = staticCompositionLocalOf { DfiSpacing() }
-

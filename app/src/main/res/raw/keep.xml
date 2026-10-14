@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Illustrations are looked up by key at runtime (getIdentifier), so resource shrinking must keep them. -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/welcome_hero,@drawable/hero_challenge,@drawable/help_hero,@drawable/farewell_*,@drawable/story_*" />
