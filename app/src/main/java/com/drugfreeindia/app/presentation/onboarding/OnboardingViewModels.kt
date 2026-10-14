@@ -117,7 +117,7 @@ class AuthViewModel @Inject constructor(
             val name = s.name.trim().ifBlank { null }
             val r = if (s.useEmail) auth.sendEmailOtp(s.destination, name) else auth.sendPhoneOtp(s.destination, name)
             r.onSuccess {
-                _state.update { it.copy(loading = false, step = AuthStep.OTP, code = "", info = "We sent a 6-digit code to ${s.maskedDestination}.") }
+                _state.update { it.copy(loading = false, step = AuthStep.OTP, code = "", info = "We sent a 6-digit code to ${s.maskedDestination}.\n(Test dummy OTP: 123456)") }
                 startResendTimer()
             }.onFailure { e -> _state.update { it.copy(loading = false, error = e.toAppError().message) } }
         }

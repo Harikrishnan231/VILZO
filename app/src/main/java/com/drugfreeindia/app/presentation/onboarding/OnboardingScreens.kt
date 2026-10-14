@@ -269,7 +269,9 @@ private fun OtpStep(s: AuthUiState, vm: AuthViewModel) {
         else LinkButton("Resend code", vm::resend)
     }
     Spacer(Modifier.height(12.dp))
-    InfoNote("You're signed in only after the code is verified.")
+    SecondaryButton("Auto-fill test code (123456)", { vm.onCode("123456") }, Modifier.fillMaxWidth())
+    Spacer(Modifier.height(8.dp))
+    InfoNote("For testing, dummy OTP 123456 is accepted for any phone or email.")
 }
 
 // ============================================================== Location & college
