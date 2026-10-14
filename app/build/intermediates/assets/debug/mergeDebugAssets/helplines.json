@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ncb_1933",
+    "name": "MANAS National Helpline",
+    "number": "1933",
+    "hours": "24/7 Toll-Free",
+    "description": "Narcotics Control Bureau & Ministry of Home Affairs toll-free anti-drug helpline for guidance and rehabilitation support.",
+    "category": "National Anti-Drug",
+    "lastVerified": "2026-10-01"
+  },
+  {
+    "id": "msje_14446",
+    "name": "National Drug De-addiction Helpline",
+    "number": "14446",
+    "hours": "24/7 Toll-Free",
+    "description": "Ministry of Social Justice and Empowerment national de-addiction counselling, crisis response and rehabilitation directory.",
+    "category": "De-addiction & Counselling",
+    "lastVerified": "2026-10-01"
+  },
+  {
+    "id": "tele_manas_14416",
+    "name": "Tele-MANAS Mental Health",
+    "number": "14416",
+    "hours": "24/7 Toll-Free",
+    "description": "National Tele-Mental Health Programme of India providing compassionate psychological first aid in 20+ Indian languages.",
+    "category": "Mental Health & Wellbeing",
+    "lastVerified": "2026-10-01"
+  },
+  {
+    "id": "emergency_112",
+    "name": "National Emergency Response (ERSS)",
+    "number": "112",
+    "hours": "24/7 Emergency",
+    "description": "Single unified emergency number for police, ambulance and medical dispatch in life-threatening crisis situations.",
+    "category": "Emergency Medical",
+    "lastVerified": "2026-10-01"
+  }
+]

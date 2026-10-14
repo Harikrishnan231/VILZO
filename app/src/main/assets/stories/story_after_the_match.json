@@ -1,0 +1,49 @@
+{
+  "id": "after_the_match",
+  "title": "After the Match",
+  "pack": "Sports",
+  "estimatedSeconds": 30,
+  "scenes": [
+    {
+      "id": "s1",
+      "speaker": "Team Locker Room",
+      "lines": [
+        "Your football team just clinched the inter-college tournament trophy!",
+        "In the parking lot, the team captain opens the boot with smuggled drinks: \"Champs celebrate hard! Drink up or you're off the first team!\""
+      ],
+      "timerSeconds": 10,
+      "pressure": 0.8,
+      "choices": [
+        {
+          "id": "a",
+          "text": "\"I play for the game and my fitness. Respect the game, captain — I'm good with fresh juice.\"",
+          "points": 10,
+          "tag": "calm_no",
+          "feedback": "Athletic integrity! True sportsmen respect their bodies more than peer approval.",
+          "next": "s2",
+          "badgeEarned": "calm_no"
+        },
+        {
+          "id": "b",
+          "text": "\"My family is waiting at the main gate for dinner, catch you guys at practice Monday!\"",
+          "points": 8,
+          "tag": "exit_plan",
+          "feedback": "Graceful exit that celebrates the win without compromising personal discipline.",
+          "next": "s2",
+          "badgeEarned": "exit_plan"
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "speaker": "Coach's Praise",
+      "lines": [
+        "On Monday, Coach recognizes your discipline and consistency during fitness trials.",
+        "Your future as an athlete stays on track."
+      ],
+      "timerSeconds": null,
+      "pressure": 0.1,
+      "choices": []
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">नशा मुक्त भारत</string>
+    <string name="app_tagline">सशक्त युवा | स्वस्थ कल</string>
+    <string name="app_message">केवल जागरूकता नहीं। वास्तविक सहयोग। बेहतर निर्णय। उज्ज्वल भविष्य।</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">होम</string>
+    <string name="nav_play">खेलें</string>
+    <string name="nav_help">सहायता</string>
+    <string name="nav_explore">अन्वेषण</string>
+    <string name="nav_profile">प्रोफ़ाइल</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">छोटे निर्णय बड़ा बदलाव लाते हैं</string>
+    <string name="onboarding_desc_1">आपको प्रतिदिन आत्मविश्वास, सच्चे सहकर्मी सहयोग और सकारात्मक समुदाय से सशक्त बनाना।</string>
+    <string name="onboarding_title_2">खेलें। सीखें। आगे बढ़ें।</string>
+    <string name="onboarding_desc_2">बिना किसी झिझक के 30 सेकंड की इंटरैक्टिव कहानियों में वास्तविक मना करने का कौशल सीखें।</string>
+    <string name="onboarding_title_3">मदद हमेशा बस एक स्पर्श दूर है</string>
+    <string name="onboarding_desc_3">विश्वसनीय संपर्क, सत्यापित केंद्र और राष्ट्रीय हेल्पलाइन — पूरी तरह से निजी और सुरक्षित।</string>
+    <string name="onboarding_btn_continue">आगे बढ़ें</string>
+    <string name="onboarding_btn_get_started">शुरू करें</string>
+    <string name="setup_title">अपनी यात्रा को अनुकूलित करें</string>
+    <string name="setup_nickname_label">अपना उपनाम चुनें</string>
+    <string name="setup_nickname_hint">उदा. शांत बाज़ (Calm Falcon)</string>
+    <string name="setup_college_label">कॉलेज कोड (वैकल्पिक)</string>
+    <string name="setup_college_hint">उदा. PUDU-NIT, IITM-CHE</string>
+    <string name="setup_language_label">पसंदीदा भाषा चुनें</string>
+
+    <!-- Home -->
+    <string name="home_hero_title">आत्मविश्वास से ना कहें</string>
+    <string name="home_hero_subtitle">इस सप्ताह का परिदृश्य पूरा करें और अपने मना करने के कौशल को परखें</string>
+    <string name="home_hero_time">30 सेकंड</string>
+    <string name="home_hero_action">चुनौती शुरू करें</string>
+    <string name="home_confidence_label">मना करने का आत्मविश्वास</string>
+    <string name="home_streak_label">दिनों का सिलसिला</string>
+    <string name="home_badges_label">अर्जित बैज</string>
+    <string name="home_help_title">मदद बस एक स्पर्श दूर है</string>
+    <string name="home_help_action_call">विश्वसनीय व्यक्ति को कॉल करें</string>
+    <string name="home_help_action_helplines">हेल्पलाइन</string>
+    <string name="home_help_action_centres">केंद्र खोजें</string>
+    <string name="home_explore_title">आगामी गतिविधि</string>
+    <string name="home_impact_title">मासिक आत्मविश्वास का रुझान</string>
+    <string name="home_leaderboard_title">शीर्ष कॉलेज समुदाय</string>
+    <string name="home_leaderboard_subtitle">सक्रिय सहभागिता और सीखना, कोई व्यक्तिगत डेटा नहीं</string>
+    <string name="home_community_impact_title">नमूना कार्यक्रम परिणाम</string>
+
+    <!-- Play -->
+    <string name="play_points">अंक</string>
+    <string name="play_level">स्तर</string>
+    <string name="play_streak">सिलसिला</string>
+    <string name="play_challenge_title">साप्ताहिक कौशल चुनौती</string>
+    <string name="play_scene_question">आप क्या करेंगे?</string>
+    <string name="play_timer_label">शेष समय</string>
+    <string name="play_pressure_label">सहकर्मी दबाव स्तर</string>
+    <string name="play_result_completed">परिदृश्य संपन्न!</string>
+    <string name="play_result_confidence_gain">मना करने का आत्मविश्वास +%d</string>
+    <string name="play_btn_replay">पुनः खेलें</string>
+    <string name="play_btn_next">अगला परिदृश्य</string>
+    <string name="play_btn_save">प्रगति सहेजें</string>
+    <string name="play_why_this_works">यह क्यों कारगर है</string>
+
+    <!-- Help -->
+    <string name="help_title">सहायता प्राप्त करें</string>
+    <string name="help_subtitle">अपनी आवश्यकता चुनें। सब कुछ पूरी तरह से निजी है।</string>
+    <string name="help_action_talk">किसी से बात करें</string>
+    <string name="help_action_talk_sub">अधिकतम 5 विश्वसनीय मित्र या परिवारजन</string>
+    <string name="help_action_centres">पुनर्वास केंद्र खोजें</string>
+    <string name="help_action_centres_sub">सत्यापित परामर्श और सहायता केंद्र</string>
+    <string name="help_action_helplines">राष्ट्रीय हेल्पलाइन</string>
+    <string name="help_action_helplines_sub">निःशुल्क 24/7 सरकारी और मानसिक स्वास्थ्य सहायता</string>
+    <string name="help_action_emergency">आपातकालीन सहायता (112)</string>
+    <string name="help_action_emergency_sub">तत्काल चिकित्सा आपातकालीन कदम</string>
+    <string name="help_action_friend">किसी मित्र की सहायता करें</string>
+    <string name="help_action_friend_sub">ज़िम्मेदारी से कैसे सुनें और सही दिशा दिखाएं</string>
+    <string name="quick_exit_btn">त्वरित निकास</string>
+    <string name="privacy_banner_text">आपकी गोपनीयता आपकी प्राथमिकता है। आप तय करते हैं क्या साझा करना है।</string>
+
+    <!-- Explore -->
+    <string name="explore_search_hint">गतिविधियाँ, क्लब, कार्यशालाएँ खोजें…</string>
+    <string name="explore_tab_activities">गतिविधियाँ और क्लब</string>
+    <string name="explore_tab_events">कार्यक्रम और कार्यशालाएँ</string>
+    <string name="explore_tab_mentors">स्वयंसेवी मार्गदर्शक</string>
+    <string name="explore_btn_join">शामिल हों</string>
+    <string name="explore_btn_joined">शामिल हैं ✓</string>
+    <string name="explore_btn_remind">याद दिलाएं</string>
+    <string name="explore_btn_chat">बातचीत का अनुरोध</string>
+    <string name="explore_trust_banner">सुरक्षा और प्रामाणिकता सुनिश्चित करने के लिए हम MY Bharat, कॉलेजों और सत्यापित गैर-सरकारी संगठनों के साथ काम करते हैं।</string>
+
+    <!-- Track Impact -->
+    <string name="impact_title">प्रभाव ट्रैक करें</string>
+    <string name="impact_monthly_survey">मासिक सर्वेक्षण</string>
+    <string name="impact_my_progress">मेरी प्रगति</string>
+    <string name="impact_community_view">सामुदायिक दृश्य</string>
+    <string name="impact_institution_view">संस्थान दृश्य</string>
+    <string name="impact_survey_anon_note">100% गोपनीय · केवल सामूहिक अंतर्दृष्टि</string>
+    <string name="impact_survey_submit">प्रतिक्रिया भेजें</string>
+
+    <!-- Profile & Settings -->
+    <string name="profile_title">प्रोफ़ाइल और सेटिंग्स</string>
+    <string name="profile_settings_language">भाषा</string>
+    <string name="profile_settings_notifications">सूचनाएँ</string>
+    <string name="profile_settings_motion">मोशन कम करें</string>
+    <string name="profile_privacy_center">गोपनीयता केंद्र</string>
+    <string name="profile_delete_all">सभी संग्रहीत डेटा हटाएं</string>
+    <string name="profile_delete_confirm">यह आपके स्थानीय रिकॉर्ड, सिलसिले, बैज और संपर्कों को हमेशा के लिए हटा देगा। जारी रखें?</string>
+    <string name="profile_about">नशा मुक्त भारत के बारे में</string>
+    <string name="medical_disclaimer">यह ऐप केवल जागरूकता और सहायता जानकारी प्रदान करता है। यह पेशेवर चिकित्सा सलाह का विकल्प नहीं है।</string>
+</resources>

@@ -1,0 +1,98 @@
+[
+  {
+    "id": "calm_no",
+    "title": "Calm No",
+    "description": "Expressed a polite, firm refusal without aggression or compromise.",
+    "iconName": "Shield",
+    "isUnlocked": true,
+    "unlockedAt": 1728000000000
+  },
+  {
+    "id": "exit_plan",
+    "title": "Exit Plan",
+    "description": "Executed a smart exit strategy using a phone call or graceful reason.",
+    "iconName": "DirectionsRun",
+    "isUnlocked": true,
+    "unlockedAt": 1728100000000
+  },
+  {
+    "id": "trusted_friend",
+    "title": "Trusted Friend",
+    "description": "Added your trusted contacts for instant safety support.",
+    "iconName": "Group",
+    "isUnlocked": false,
+    "unlockedAt": null
+  },
+  {
+    "id": "helping_hand",
+    "title": "Helping Hand",
+    "description": "Read the guide on how to support a friend struggling with pressure.",
+    "iconName": "VolunteerActivism",
+    "isUnlocked": false,
+    "unlockedAt": null
+  },
+  {
+    "id": "7day_streak",
+    "title": "7-Day Streak",
+    "description": "Maintained daily awareness practice for seven consecutive days.",
+    "iconName": "LocalFireDepartment",
+    "isUnlocked": false,
+    "unlockedAt": null
+  },
+  {
+    "id": "college_hero",
+    "title": "College Hero",
+    "description": "Contributed refusal points to your campus community leaderboard.",
+    "iconName": "School",
+    "isUnlocked": false,
+    "unlockedAt": null
+  },
+  {
+    "id": "first_story",
+    "title": "First Step",
+    "description": "Completed your first interactive refusal scenario simulation.",
+    "iconName": "CheckCircle",
+    "isUnlocked": true,
+    "unlockedAt": 1727900000000
+  },
+  {
+    "id": "creative_spark",
+    "title": "Creative Spark",
+    "description": "Explored positive clubs in Art, Music, or Poetry.",
+    "iconName": "Palette",
+    "isUnlocked": false,
+    "unlockedAt": null
+  },
+  {
+    "id": "sports_star",
+    "title": "Athletic Grit",
+    "description": "Joined a positive fitness or sports youth initiative.",
+    "iconName": "FitnessCenter",
+    "isUnlocked": false,
+    "unlockedAt": null
+  },
+  {
+    "id": "community_voice",
+    "title": "Community Voice",
+    "description": "Submitted your anonymous monthly pulse survey.",
+    "iconName": "Poll",
+    "isUnlocked": false,
+    "unlockedAt": null
+  },
+  {
+    "id": "milestone_100",
+    "title": "Century Club",
+    "description": "Earned over 100 refusal skill points through scenario challenges.",
+    "iconName": "Star",
+    "isUnlocked": false,
+    "unlockedAt": null
+  },
+  {
+    "id": "master_of_choices",
+    "title": "Master of Choices",
+    "description": "Completed all 7 peer-pressure story modules with distinction.",
+    "iconName": "EmojiEvents",
+    "isUnlocked": false,
+    "unlockedAt": null
+  }
+]

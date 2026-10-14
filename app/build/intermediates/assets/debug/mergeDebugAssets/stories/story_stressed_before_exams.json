@@ -1,0 +1,49 @@
+{
+  "id": "stressed_before_exams",
+  "title": "Stressed Before Exams",
+  "pack": "Hostel",
+  "estimatedSeconds": 35,
+  "scenes": [
+    {
+      "id": "s1",
+      "speaker": "Library Stairs",
+      "lines": [
+        "Your hands are trembling before the hardest university paper. A senior student passes by:",
+        "\"You look like you're about to pass out. Take this pill, it kills all panic instantly.\""
+      ],
+      "timerSeconds": 10,
+      "pressure": 0.7,
+      "choices": [
+        {
+          "id": "a",
+          "text": "\"No thanks. I'm going to do 2 minutes of 4-7-8 breathing and drink water. My preparation is enough.\"",
+          "points": 10,
+          "tag": "calm_no",
+          "feedback": "Outstanding coping mechanism! Deep breathing regulates the vagus nerve safely and immediately.",
+          "next": "s2",
+          "badgeEarned": "calm_no"
+        },
+        {
+          "id": "b",
+          "text": "\"I'll call my sister to calm my nerves before entering the hall.\"",
+          "points": 8,
+          "tag": "exit_plan",
+          "feedback": "Social grounding through loved ones provides emotional safety without hazardous side effects.",
+          "next": "s2",
+          "badgeEarned": "exit_plan"
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "speaker": "Self-Trust",
+      "lines": [
+        "After a few deep breaths, the racing heart slows down. You write the paper with composure and clarity.",
+        "Healthy coping mechanisms become permanent inner strengths."
+      ],
+      "timerSeconds": null,
+      "pressure": 0.1,
+      "choices": []
+    }
+  ]
+}

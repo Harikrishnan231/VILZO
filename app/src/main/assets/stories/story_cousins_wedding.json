@@ -1,0 +1,48 @@
+{
+  "id": "cousins_wedding",
+  "title": "Cousin's Wedding",
+  "pack": "Family functions",
+  "estimatedSeconds": 35,
+  "scenes": [
+    {
+      "id": "s1",
+      "speaker": "Baraat Lawn",
+      "lines": [
+        "Behind the banquet tent, older cousins huddle around a car boot with flavored vapes and illicit alcohol.",
+        "\"Hey little cousin, you're in college now. Try this puff, nobody inside will ever know!\""
+      ],
+      "timerSeconds": 10,
+      "pressure": 0.65,
+      "choices": [
+        {
+          "id": "a",
+          "text": "\"No thank you, bhai. Uncle called me over to help with the music stage.\"",
+          "points": 9,
+          "tag": "exit_plan",
+          "feedback": "Using family duties as an unarguable exit plan protects relationships without confrontation.",
+          "next": "s2",
+          "badgeEarned": "exit_plan"
+        },
+        {
+          "id": "b",
+          "text": "\"Not interested, guys. Let's go grab the kulfi instead!\"",
+          "points": 8,
+          "tag": "redirect",
+          "feedback": "Redirecting back to festive celebrations keeps the atmosphere joyful and clean.",
+          "next": "s2"
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "speaker": "Family Celebration",
+      "lines": [
+        "You enjoyed the dance floor and delicious buffet with zero guilt and a clear conscience.",
+        "Healthy choices ensure happy memories."
+      ],
+      "timerSeconds": null,
+      "pressure": 0.1,
+      "choices": []
+    }
+  ]
+}
