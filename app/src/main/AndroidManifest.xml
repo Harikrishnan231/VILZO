@@ -54,6 +54,12 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="com.drugfreeindia.app" android:host="login-callback" />
             </intent-filter>
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="dfi" android:host="auth" />
+            </intent-filter>
         </activity>
 
         <meta-data
