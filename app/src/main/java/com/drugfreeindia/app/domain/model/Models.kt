@@ -43,6 +43,7 @@ data class Profile(
     val id: String,
     @SerialName("full_name") val fullName: String? = null,
     val phone: String? = null,
+    @SerialName("avatar_url") val avatarUrl: String? = null,
     @SerialName("city_id") val cityId: String? = null,
     @SerialName("college_id") val collegeId: String? = null,
     @SerialName("custom_college_name") val customCollegeName: String? = null,
@@ -103,8 +104,81 @@ data class Activity(
     val status: String = "pending",
     @SerialName("is_verified") val isVerified: Boolean = false,
     @SerialName("is_demo") val isDemo: Boolean = false,
-    @SerialName("created_by") val createdBy: String? = null
+    @SerialName("created_by") val createdBy: String? = null,
+    @SerialName("source_url") val sourceUrl: String? = null,
+    @SerialName("source_checked_on") val sourceCheckedOn: String? = null,
+    @SerialName("date_label") val dateLabel: String? = null,
+    @SerialName("date_confidence") val dateConfidence: String? = null,
+    val tags: List<String> = emptyList(),
+    @SerialName("cover_image_key") val coverImageKey: String? = null,
+    @SerialName("location_text") val locationText: String? = null,
+    val region: String? = null
 )
+
+// ---------------- Cinematic Story Mode ----------------
+
+@Serializable
+data class CinematicBeat(
+    val type: String = "narration",
+    val text: String,
+    val speaker: String? = null,
+    val from: String? = null
+)
+
+@Serializable
+data class CinematicOpeningVariant(
+    @SerialName("cameFrom") val cameFrom: List<String> = emptyList(),
+    val beats: List<CinematicBeat> = emptyList()
+)
+
+@Serializable
+data class CinematicChoice(
+    val id: String,
+    val text: String,
+    val next: String,
+    @SerialName("routeNote") val routeNote: String? = null
+)
+
+@Serializable
+data class CinematicScene(
+    val id: String,
+    val type: String = "scene",
+    val chapter: String? = null,
+    val title: String,
+    @SerialName("imageKey") val imageKey: String? = null,
+    val beats: List<CinematicBeat> = emptyList(),
+    val choices: List<CinematicChoice> = emptyList(),
+    @SerialName("openingVariants") val openingVariants: List<CinematicOpeningVariant> = emptyList(),
+    @SerialName("endingType") val endingType: String? = null,
+    val label: String? = null,
+    val reflection: String? = null,
+    val actions: List<String> = emptyList()
+) {
+    val isEnding: Boolean get() = type == "ending" || choices.isEmpty()
+}
+
+@Serializable
+data class StoryCharacter(
+    val id: String,
+    val name: String,
+    val description: String? = null
+)
+
+@Serializable
+data class CinematicStory(
+    val id: String,
+    val title: String,
+    val tagline: String? = null,
+    val version: Int = 1,
+    val language: String = "en",
+    @SerialName("estimatedMinutes") val estimatedMinutes: Int = 5,
+    @SerialName("contentNote") val contentNote: String? = null,
+    val characters: List<StoryCharacter> = emptyList(),
+    @SerialName("startScene") val startScene: String = "S01",
+    val scenes: List<CinematicScene> = emptyList()
+) {
+    fun scene(id: String): CinematicScene? = scenes.firstOrNull { it.id == id }
+}
 
 /** Insert payload for a user submission (RLS: pending / unverified / non-demo only). */
 @Serializable
@@ -345,3 +419,39 @@ data class TrustedContact(
     val phone: String,
     val relationship: String = ""
 )
+
+// ---------------------------------------------------------------------------
+// Anonymous Grievances & College Administration (§8)
+// ---------------------------------------------------------------------------
+
+@Serializable
+data class AnonymousComplaint(
+    val id: String = "",
+    @SerialName("college_id") val collegeId: String,
+    @SerialName("client_token") val clientToken: String,
+    val category: String = "substance_misuse",
+    val subject: String,
+    val status: String = "submitted",
+    @SerialName("student_pseudonym") val studentPseudonym: String = "Anonymous Student",
+    @SerialName("created_at") val createdAt: String? = null,
+    @SerialName("updated_at") val updatedAt: String? = null
+)
+
+@Serializable
+data class AnonymousComplaintMessage(
+    val id: String = "",
+    @SerialName("complaint_id") val complaintId: String,
+    @SerialName("sender_role") val senderRole: String, // 'student' or 'college_admin'
+    val message: String,
+    @SerialName("created_at") val createdAt: String? = null
+)
+
+@Serializable
+data class CollegeDashboardStats(
+    @SerialName("total_students") val totalStudents: Long = 0,
+    @SerialName("total_points") val totalPoints: Long = 0,
+    @SerialName("active_complaints") val activeComplaints: Long = 0,
+    @SerialName("resolved_complaints") val resolvedComplaints: Long = 0,
+    @SerialName("total_complaints") val totalComplaints: Long = 0
+)
+

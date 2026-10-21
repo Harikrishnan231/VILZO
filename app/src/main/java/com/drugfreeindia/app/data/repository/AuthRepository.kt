@@ -283,13 +283,15 @@ class LocalDataWiper @Inject constructor(
     private val db: AppDatabase,
     private val prefs: PrefsStore,
     private val contacts: TrustedContactsRepository,
-    private val profile: ProfileRepository
+    private val profile: ProfileRepository,
+    private val grievance: dagger.Lazy<CollegeGrievanceRepository>
 ) {
     suspend fun wipeUserData(includeContacts: Boolean) {
         db.cache().clearUserScoped()
         db.pending().clear()
         db.results().clear()
         profile.clear()
+        grievance.get().onUserSignedOut()
         if (includeContacts) {
             contacts.clear()
             prefs.clear()

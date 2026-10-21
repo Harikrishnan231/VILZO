@@ -187,7 +187,8 @@ class AuthViewModel @Inject constructor(
             } catch (_: NoCredentialException) {
                 _state.update { it.copy(googleLoading = false, error = "No Google account found on this device. Add one in Settings or use phone/email.") }
             } catch (t: Throwable) {
-                _state.update { it.copy(googleLoading = false, error = "Google sign-in didn't complete. Please try again.") }
+                val msg = t.localizedMessage?.takeIf { it.isNotBlank() } ?: "Google sign-in didn't complete. Please try again."
+                _state.update { it.copy(googleLoading = false, error = msg) }
             }
         }
     }
@@ -208,6 +209,8 @@ val cityCentres = mapOf(
 const val OTHER_COLLEGE_ID = "__other__"
 
 data class LocationUiState(
+    val fullName: String = "",
+    val phone: String = "",
     val loadingCities: Boolean = true,
     val cities: List<City> = emptyList(),
     val citySource: Source = Source.BUNDLED,
@@ -247,7 +250,15 @@ class LocationViewModel @Inject constructor(
     private val _done = Channel<Unit>(Channel.BUFFERED)
     val done = _done.receiveAsFlow()
 
-    init { loadCities() }
+    init {
+        loadCities()
+        profiles.profile.value?.let { p ->
+            _state.update { it.copy(fullName = p.fullName.orEmpty(), phone = p.phone.orEmpty()) }
+        }
+    }
+
+    fun onFullName(v: String) = _state.update { it.copy(fullName = v.take(80)) }
+    fun onPhone(v: String) = _state.update { it.copy(phone = v.filter { c -> c.isDigit() }.take(12)) }
 
     fun loadCities() = viewModelScope.launch {
         _state.update { it.copy(loadingCities = true, error = null) }
@@ -332,6 +343,8 @@ class LocationViewModel @Inject constructor(
                 val serverCity = !city.id.startsWith("local:")
                 val college = s.college
                 val fields = buildJsonObject {
+                    if (s.fullName.isNotBlank()) put("full_name", JsonPrimitive(s.fullName.trim()))
+                    if (s.phone.isNotBlank()) put("phone", JsonPrimitive(s.phone.trim()))
                     if (serverCity) put("city_id", city.id) else put("city_id", JsonNull)
                     when {
                         college == null -> { put("college_id", JsonNull); put("custom_college_name", JsonNull) }

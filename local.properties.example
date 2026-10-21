@@ -1,0 +1,20 @@
+## Drug-Free India (VILZO) - Local Environment Configuration Template
+## Copy this file to 'local.properties' (git-ignored) and replace the placeholders with your values.
+## NEVER commit your actual 'local.properties' file or secret service keys to Git.
+
+# Android SDK Location (configured automatically by Android Studio)
+# sdk.dir=C:\\Users\\YOUR_USERNAME\\AppData\\Local\\Android\\Sdk
+
+# Supabase Backend Configuration
+# Found in: Supabase Dashboard -> Project Settings -> API
+SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_YOUR_KEY_HERE
+
+# Google OAuth Web Client ID
+# Found in: Google Cloud Console -> APIs & Services -> Credentials -> Web client (Auto-created by Google Service)
+# Used by Android Credential Manager to request native Google ID Tokens for Supabase Auth
+GOOGLE_WEB_CLIENT_ID=YOUR_GOOGLE_WEB_CLIENT_ID.apps.googleusercontent.com
+
+# Google Maps API Key (Optional)
+# If left blank, the app gracefully falls back to OpenStreetMap (osmdroid) for centre mapping
+MAPS_API_KEY=YOUR_GOOGLE_MAPS_API_KEY

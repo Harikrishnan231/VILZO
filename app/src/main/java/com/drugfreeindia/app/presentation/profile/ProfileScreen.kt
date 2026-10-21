@@ -84,6 +84,17 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import javax.inject.Inject
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.material.icons.rounded.CameraAlt
+import androidx.compose.material.icons.rounded.Insights
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import coil.compose.AsyncImage
+
 data class ProfileUiState(
     val account: AccountInfo? = null,
     val profile: Profile? = null,
@@ -94,6 +105,7 @@ data class ProfileUiState(
     val config: AppConfig = AppConfig(),
     val badges: List<Badge> = emptyList(),
     val earned: Set<String> = emptySet(),
+    val customAvatarUri: String? = null,
     val busy: Boolean = false,
     val message: String? = null
 )
@@ -120,10 +132,19 @@ class ProfileViewModel @Inject constructor(
         val city = cities.firstOrNull { it.id == p?.cityId } ?: cities.firstOrNull { it.slug == prefsStore.current().citySlug }
         val collegeName = p?.customCollegeName ?: p?.collegeId?.let { id -> city?.let { content.colleges(it.id).data.firstOrNull { c -> c.id == id }?.name } }
         val verified = if (account?.phone != null) profiles.isPhoneVerified().getOrNull() else null
+        val avatar = p?.avatarUrl ?: _state.value.customAvatarUri
         _state.update {
             it.copy(account = account, profile = p, cityName = city?.name, collegeName = collegeName, phoneVerified = verified,
                 stats = play.stats()?.data, config = content.config().data, badges = content.badges().data,
-                earned = play.myBadges()?.data?.map { b -> b.badgeId }?.toSet().orEmpty())
+                earned = play.myBadges()?.data?.map { b -> b.badgeId }?.toSet().orEmpty(),
+                customAvatarUri = avatar)
+        }
+    }
+
+    fun setCustomAvatarUri(uri: String) = viewModelScope.launch {
+        _state.update { it.copy(customAvatarUri = uri) }
+        if (auth.userId != null) {
+            profiles.update(buildJsonObject { put("avatar_url", uri) })
         }
     }
 
@@ -174,6 +195,7 @@ class ProfileViewModel @Inject constructor(
 @Composable
 fun ProfileScreen(
     onBack: () -> Unit,
+    onImpact: () -> Unit,
     onEditLocation: () -> Unit,
     onContacts: () -> Unit,
     onPrivacy: () -> Unit,
@@ -188,6 +210,14 @@ fun ProfileScreen(
     var confirmSignOut by remember { mutableStateOf(false) }
     var confirmDelete by remember { mutableStateOf(false) }
     var confirmReset by remember { mutableStateOf(false) }
+    val photoPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? ->
+            if (uri != null) {
+                vm.setCustomAvatarUri(uri.toString())
+            }
+        }
+    )
     LaunchedEffect(Unit) { vm.refresh() }
     LaunchedEffect(Unit) { vm.signedOut.collect { onSignedOut() } }
     val signedIn = s.account != null
@@ -197,13 +227,51 @@ fun ProfileScreen(
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 20.dp).navigationBarsPadding()) {
             // Header
             Row(verticalAlignment = Alignment.CenterVertically) {
-                AvatarInitials(s.profile?.fullName, 64.dp)
+                Box(
+                    modifier = Modifier
+                        .size(68.dp)
+                        .clickable(onClickLabel = "Change profile picture") { photoPicker.launch("image/*") }
+                ) {
+                    if (!s.customAvatarUri.isNullOrBlank()) {
+                        AsyncImage(
+                            model = s.customAvatarUri,
+                            contentDescription = "Profile picture",
+                            modifier = Modifier.size(68.dp).clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        AvatarInitials(s.profile?.fullName, 68.dp)
+                    }
+                    Box(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .align(Alignment.BottomEnd)
+                            .clip(CircleShape)
+                            .background(c.primary)
+                            .border(2.dp, c.surface, CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(Icons.Rounded.CameraAlt, contentDescription = "Edit photo", tint = Color.White, modifier = Modifier.size(13.dp))
+                    }
+                }
                 Spacer(Modifier.width(16.dp))
                 Column(Modifier.weight(1f)) {
                     Text(s.profile?.fullName ?: if (signedIn) "Add your name" else "Guest", style = DfiTheme.typography.sectionTitle, color = c.onSurface)
                     Text(listOfNotNull(s.collegeName, s.cityName).joinToString(" · ").ifEmpty { "No college or city set" },
                         style = DfiTheme.typography.bodySmall, color = c.onSurfaceVariant)
                 }
+            }
+
+            // Campus Impact
+            Spacer(Modifier.height(18.dp))
+            Group("Campus & Community Impact")
+            DfiCard(Modifier.fillMaxWidth(), padding = PaddingValues(vertical = 4.dp)) {
+                ListRow(
+                    title = "Impact & Milestones",
+                    subtitle = "College ranking, collective streaks & pulse survey",
+                    icon = Icons.Rounded.Insights,
+                    onClick = onImpact
+                )
             }
             val st = s.stats
             if (signedIn && st != null) {

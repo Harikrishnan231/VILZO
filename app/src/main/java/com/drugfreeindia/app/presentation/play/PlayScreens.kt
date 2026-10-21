@@ -91,10 +91,14 @@ import com.drugfreeindia.app.presentation.util.Format
 // ============================================================== Play landing
 
 @Composable
-fun PlayScreen(contentPadding: PaddingValues, onOpenStory: (String) -> Unit, vm: PlayViewModel = hiltViewModel()) {
+fun PlayScreen(
+    contentPadding: PaddingValues,
+    onOpenStory: (String) -> Unit,
+    onExploreStories: () -> Unit,
+    vm: PlayViewModel = hiltViewModel()
+) {
     val s by vm.state.collectAsState()
     val c = DfiTheme.colors
-    var comingSoon by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(Unit) { vm.refresh() }
 
     LazyColumn(Modifier.fillMaxSize().background(c.background), contentPadding = PaddingValues(bottom = contentPadding.calculateBottomPadding() + 24.dp)) {
@@ -137,9 +141,47 @@ fun PlayScreen(contentPadding: PaddingValues, onOpenStory: (String) -> Unit, vm:
                 }
             }
         }
-        item { SectionHeader("Scenarios", Modifier.padding(start = 20.dp, end = 20.dp, top = 24.dp)) }
+        item { SectionHeader("Scenario Games", Modifier.padding(start = 20.dp, end = 20.dp, top = 24.dp)) }
         if (s.loading) item { LoadingState() }
         items(s.stories, key = { it.story.id }) { row -> StoryListRow(row) { onOpenStory(row.story.id) } }
+
+        // Story Mode Section (Fictional Life Journeys)
+        item { SectionHeader("Story Mode", Modifier.padding(start = 20.dp, end = 20.dp, top = 24.dp)) }
+        item {
+            DfiCard(
+                Modifier.padding(horizontal = 20.dp).fillMaxWidth(),
+                onClick = onExploreStories,
+                color = c.surface,
+                padding = PaddingValues(0.dp)
+            ) {
+                Column {
+                    AppImage(
+                        "story_tcnn_cover",
+                        "Story Mode: A young Indian college student standing on a campus pathway with a subtle transition from moody to hopeful light",
+                        Modifier.fillMaxWidth().height(160.dp).clip(DfiTheme.shapes.hero)
+                    )
+                    Column(Modifier.padding(18.dp)) {
+                        Tag("Fictional Life Journeys", color = c.primaryDark, bg = c.primarySoft)
+                        Spacer(Modifier.height(8.dp))
+                        Text("Story Mode", style = DfiTheme.typography.heroTitle, color = c.onSurface)
+                        Spacer(Modifier.height(4.dp))
+                        Text("Every choice changes what happens next.", style = DfiTheme.typography.labelSmall, color = c.primary)
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            "Step into fictional lives, experience the consequences of difficult decisions, and discover how support can change a person's journey.",
+                            style = DfiTheme.typography.bodySmall,
+                            color = c.onSurfaceVariant
+                        )
+                        Spacer(Modifier.height(16.dp))
+                        PrimaryButton(
+                            "Explore Stories",
+                            onClick = onExploreStories,
+                            icon = Icons.AutoMirrored.Rounded.KeyboardArrowRight
+                        )
+                    }
+                }
+            }
+        }
 
         // Achievements strip
         if (s.badges.isNotEmpty()) {
@@ -152,19 +194,6 @@ fun PlayScreen(contentPadding: PaddingValues, onOpenStory: (String) -> Unit, vm:
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 6.dp))
             }
         }
-        // Multiplayer: locked, coming soon only.
-        item { SectionHeader("More games — Coming soon", Modifier.padding(start = 20.dp, end = 20.dp, top = 20.dp)) }
-        item {
-            Row(Modifier.padding(horizontal = 20.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                LockedGame("Who's Spreading the Myth?", Modifier.weight(1f)) { comingSoon = "Who's Spreading the Myth?" }
-                LockedGame("Pressure Battle", Modifier.weight(1f)) { comingSoon = "Pressure Battle" }
-            }
-        }
-    }
-    comingSoon?.let { name ->
-        com.drugfreeindia.app.presentation.components.ConfirmDialog(
-            title = name, body = "This group mode is planned for a future version. For now, practise with the single-player scenarios.",
-            confirm = "OK", onConfirm = { comingSoon = null }, onDismiss = { comingSoon = null })
     }
 }
 

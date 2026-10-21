@@ -1,8 +1,9 @@
 .gradle/
 .kotlin/
 build/
-app/build/
+**/build/
 local.properties
+**/local.properties
 *.iml
 .idea/
 captures/
@@ -10,3 +11,6 @@ captures/
 .cxx/
 *.keystore
 *.jks
+apks/
+*.apk
+*.aab

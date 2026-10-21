@@ -7,6 +7,7 @@ import com.drugfreeindia.app.data.local.Connectivity
 import com.drugfreeindia.app.data.remote.AppError
 import com.drugfreeindia.app.data.remote.isSupabaseConfigured
 import com.drugfreeindia.app.data.remote.toAppError
+import com.drugfreeindia.app.domain.model.Activity
 import com.drugfreeindia.app.domain.model.AppConfig
 import com.drugfreeindia.app.domain.model.AppConfigRow
 import com.drugfreeindia.app.domain.model.Badge
@@ -57,6 +58,9 @@ class SeedSource @Inject constructor(@ApplicationContext private val context: Co
 
     private val ref: SeedRef by lazy { AppJson.decodeFromString(read("seed/reference.json")) }
     val stories: List<Story> by lazy { AppJson.decodeFromString(read("seed/stories.json")) }
+    val activities: List<Activity> by lazy {
+        runCatching { AppJson.decodeFromString<List<Activity>>(read("seed/activities.json")) }.getOrDefault(emptyList())
+    }
 
     private fun read(path: String) = context.assets.open(path).bufferedReader().use { it.readText() }
 
@@ -136,6 +140,17 @@ class ContentRepository @Inject constructor(
         }
     }
 
+    suspend fun allColleges(): Loaded<List<College>> {
+        return load("all_colleges", ListSerializer(College.serializer()), {
+            seed.colleges.sortedBy { it.name }
+        }) {
+            supabase.from("colleges").select {
+                filter { eq("is_active", true) }
+                order("name", Order.ASCENDING)
+            }.decodeList<College>()
+        }
+    }
+
     suspend fun helplines() = load("helplines", ListSerializer(Helpline.serializer()), { seed.helplines }) {
         supabase.from("helplines").select { order("sort_order", Order.ASCENDING) }.decodeList<Helpline>()
     }
@@ -188,4 +203,6 @@ class ContentRepository @Inject constructor(
         )
         return Loaded(cfg, rows.source, rows.error)
     }
+
+    val bundledActivities: List<Activity> get() = seed.activities
 }

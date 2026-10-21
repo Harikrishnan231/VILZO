@@ -184,15 +184,26 @@ class ImpactViewModel @Inject constructor(
 }
 
 @Composable
-fun ImpactScreen(contentPadding: PaddingValues, onSurvey: () -> Unit, onSignIn: () -> Unit, vm: ImpactViewModel) {
+fun ImpactScreen(
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    onSurvey: () -> Unit,
+    onSignIn: () -> Unit,
+    onBack: (() -> Unit)? = null,
+    vm: ImpactViewModel
+) {
     val s by vm.state.collectAsState()
     val c = DfiTheme.colors
     LaunchedEffect(Unit) { vm.refresh() }
     Column(Modifier.fillMaxSize().background(c.background).verticalScroll(rememberScrollState())
         .padding(bottom = contentPadding.calculateBottomPadding() + 24.dp)) {
-        Column(Modifier.statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp)) {
-            ScreenTitle("Track Impact", "Understand what you're learning and how your community is participating.")
-            Spacer(Modifier.height(16.dp))
+        if (onBack != null) {
+            TopBar("Track Impact", onBack)
+        }
+        Column(Modifier.statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = if (onBack != null) 0.dp else 16.dp)) {
+            if (onBack == null) {
+                ScreenTitle("Track Impact", "Understand what you're learning and how your community is participating.")
+                Spacer(Modifier.height(16.dp))
+            }
             SegmentedTabs(listOf("My progress", "Community", "Institution"), s.tab, vm::setTab)
             Spacer(Modifier.height(16.dp))
         }

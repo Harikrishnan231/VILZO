@@ -1,0 +1,865 @@
+{
+  "id": "the_changes_nobody_noticed",
+  "title": "The Changes Nobody Noticed",
+  "tagline": "Small changes. Big silence.",
+  "version": 2,
+  "language": "en",
+  "estimatedMinutes": 5,
+  "contentNote": "A fictional story about a student's struggles with substance use and how support can help. It is not medical advice and it does not assess you. If you or someone you know needs help, open Get Help.",
+  "characters": [
+    {
+      "id": "arjun",
+      "name": "Arjun",
+      "description": "20, third-year computer science student, funny and dependable, building a campus bus-tracker with Team Nimbus"
+    },
+    {
+      "id": "karthik",
+      "name": "Karthik",
+      "description": "Arjun's best friend and teammate; notices more than he says; not a medical professional"
+    },
+    {
+      "id": "meera",
+      "name": "Meera",
+      "description": "Team Nimbus lead; blunt, fair and kind"
+    },
+    {
+      "id": "amma",
+      "name": "Amma",
+      "description": "Arjun's mother; calls every evening; worried but doesn't yet understand"
+    },
+    {
+      "id": "dr_nandhini",
+      "name": "Dr. Nandhini",
+      "description": "Fictional counsellor at the college wellness centre; explains options without promising outcomes"
+    }
+  ],
+  "startScene": "S01",
+  "scenes": [
+    {
+      "id": "S01",
+      "type": "scene",
+      "chapter": "Monday · 8:15 a.m.",
+      "title": "Just Another Monday",
+      "imageKey": "story_tcnn_s01",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Monday, 8:15 a.m. Arjun's alarm has been ringing for forty minutes. Last night ended at 3 a.m., and his head feels like wet cement."
+        },
+        {
+          "type": "chat",
+          "from": "Meera · Team Nimbus",
+          "text": "Demo is Friday, 5 PM. Arjun, how's the tracking module?"
+        },
+        {
+          "type": "chat",
+          "from": "Karthik",
+          "text": "Last night was legendary, da. Thursday again?"
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Amma",
+          "text": "Arjun! Your idli is going cold. At least eat before you run!"
+        },
+        {
+          "type": "thought",
+          "text": "After the demo I'll sleep. It's fine. Everything's fine."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Sit with Amma for five minutes",
+          "next": "S03",
+          "routeNote": "Had breakfast with Amma"
+        },
+        {
+          "id": "b",
+          "text": "Grab his bag and rush to college",
+          "next": "S02",
+          "routeNote": "Rushed out without talking to Amma"
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "type": "scene",
+      "chapter": "Monday · 10:00 a.m.",
+      "title": "The Lab",
+      "imageKey": "story_tcnn_s02",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Computer lab 3. The same error that broke his tracking module on Thursday is back, and he can't remember what he tried since."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Meera",
+          "text": "Status check, Arjun. Is the live-tracking module on track?"
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Arjun",
+          "text": "Almost done. Just polishing."
+        },
+        {
+          "type": "narration",
+          "text": "It isn't almost done. It is barely started."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Karthik",
+          "text": "You've been somewhere else for weeks, bro. You okay?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Tell Karthik the truth: he can't sleep and can't focus",
+          "next": "S05",
+          "routeNote": "Told Karthik he was struggling"
+        },
+        {
+          "id": "b",
+          "text": "Laugh it off: \"Just busy, da.\"",
+          "next": "S04",
+          "routeNote": "Brushed off Karthik's concern"
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "type": "scene",
+      "chapter": "Monday · 8:20 a.m.",
+      "title": "Breakfast Going Cold",
+      "imageKey": "story_tcnn_s03",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Amma puts a plate in front of him and watches him push the food around."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Amma",
+          "text": "You've stopped calling Thatha at night. He keeps asking me why."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Arjun",
+          "text": "College is busy, Amma. Everything's fine."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Amma",
+          "text": "You don't have to tell me everything. But you also don't have to carry everything alone."
+        },
+        {
+          "type": "narration",
+          "text": "For one second, Arjun almost tells her. Then his phone buzzes."
+        },
+        {
+          "type": "chat",
+          "from": "Rohan",
+          "text": "Thursday plan on?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Tell her he's been stressed, and promise to call Thatha tonight",
+          "next": "S05",
+          "routeNote": "Admitted to Amma that he was stressed"
+        },
+        {
+          "id": "b",
+          "text": "Check Rohan's message, grab his bag and leave",
+          "next": "S04",
+          "routeNote": "Left before Amma could ask more"
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "type": "scene",
+      "chapter": "Wednesday · 6:30 p.m.",
+      "title": "Small Amounts",
+      "imageKey": "story_tcnn_s04",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "By Wednesday, Arjun has borrowed small amounts of money twice. \"Just till Friday,\" he promised both times. He has stopped sitting at his usual canteen table."
+        },
+        {
+          "type": "chat",
+          "from": "Karthik",
+          "text": "Bro, no rush on the ₹1,000. Just checking you're alive."
+        },
+        {
+          "type": "chat",
+          "from": "Meera",
+          "text": "No commits from you since last week. Everything okay?"
+        },
+        {
+          "type": "narration",
+          "text": "His to-do list in the Notes app is long. He has crossed out everything except one word: \"Sleep.\""
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Call Karthik and say honestly that he isn't coping",
+          "next": "S05",
+          "routeNote": "Called Karthik and was honest"
+        },
+        {
+          "id": "b",
+          "text": "Reply \"Will sort it tomorrow\" to everyone and put the phone away",
+          "next": "S06",
+          "routeNote": "Put off every difficult message"
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "type": "scene",
+      "chapter": "Library steps",
+      "title": "Someone Actually Asked",
+      "imageKey": "story_tcnn_s05",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Karthik listens without interrupting. No jokes. No lectures."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Arjun",
+          "text": "Some days I'm completely fine. Some days I can't even open my laptop. And the weekend stuff... it stopped being only weekends. I thought I could keep it separate from everything else."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Karthik",
+          "text": "Meera and I have been trying to work out how to say this for two weeks. We rehearsed it. We both chickened out."
+        },
+        {
+          "type": "narration",
+          "text": "Arjun stares at him. He was so sure nobody had noticed. Everybody had. They just didn't know how to start."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Karthik",
+          "text": "I'm not a doctor, da. But this isn't something you should have to figure out alone."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Say he isn't ready for a counsellor yet, but he'll tell Amma tonight",
+          "next": "S09",
+          "routeNote": "Chose to tell his mother first"
+        },
+        {
+          "id": "b",
+          "text": "Agree to talk to Dr. Nandhini at the college wellness centre",
+          "next": "S07",
+          "routeNote": "Agreed to see the college counsellor"
+        }
+      ],
+      "openingVariants": [
+        {
+          "cameFrom": ["S02"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "After class, Karthik walks him to the library steps and says nothing until they sit down."
+            }
+          ]
+        },
+        {
+          "cameFrom": ["S03"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "That evening, Arjun finds Karthik on the library steps. Amma is the only one he has said any of this to."
+            }
+          ]
+        },
+        {
+          "cameFrom": ["S04"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "Karthik answers on the first ring and is on the library steps within ten minutes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S06",
+      "type": "scene",
+      "chapter": "Friday · 4:40 p.m.",
+      "title": "The Call He Didn't Answer",
+      "imageKey": "story_tcnn_s06",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Friday, 4:40 p.m. The demo starts in twenty minutes. Arjun is still in bed, curtains shut."
+        },
+        {
+          "type": "narration",
+          "text": "His phone lights up again and again. Meera. Karthik. Amma. Meera."
+        },
+        {
+          "type": "thought",
+          "text": "If I don't show up, they'll understand. Or they'll stop asking."
+        },
+        {
+          "type": "narration",
+          "text": "A portal alert slides in: \"Attendance shortage: 3 subjects.\""
+        },
+        {
+          "type": "narration",
+          "text": "For the first time, he wonders whether waiting for things to fix themselves was ever a plan."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Silence the phone and stay where he is",
+          "next": "E01",
+          "routeNote": "Stayed in his room and let the calls ring out"
+        },
+        {
+          "id": "b",
+          "text": "Pick up the next call, even without an explanation",
+          "next": "S08",
+          "routeNote": "Answered a call even though he had no explanation"
+        }
+      ]
+    },
+    {
+      "id": "S07",
+      "type": "scene",
+      "chapter": "Wellness centre",
+      "title": "The Room with Two Chairs",
+      "imageKey": "story_tcnn_s07",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "The wellness centre has a plant, daylight and two chairs facing each other. Dr. Nandhini doesn't open a file. She just asks how he has been sleeping."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Arjun",
+          "text": "If people find out, they'll assume the worst about me."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Dr. Nandhini",
+          "text": "Asking for help isn't a verdict on who you are. It's how we understand what's happening and what could help. We'll also talk about what stays private and what doesn't, so there are no surprises."
+        },
+        {
+          "type": "narration",
+          "text": "She explains that different people need different kinds of support, and that there is no single script."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Feel overwhelmed by the fear of being judged and leave without a plan",
+          "next": "S09",
+          "routeNote": "Left the first appointment without a plan"
+        },
+        {
+          "id": "b",
+          "text": "Ask what a support plan could look like",
+          "next": "S10",
+          "routeNote": "Asked what a support plan could look like"
+        }
+      ]
+    },
+    {
+      "id": "S08",
+      "type": "scene",
+      "chapter": "Friday · 5:10 p.m.",
+      "title": "The Empty Chair",
+      "imageKey": "story_tcnn_s08",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "It's Karthik. He doesn't ask where Arjun has been. \"Meera moved the demo to six,\" he says. \"Come to the canteen first. Just come.\""
+        },
+        {
+          "type": "narration",
+          "text": "Arjun makes it as far as the far corner, where nobody can see him. Through the glass: the Nimbus team at his old table, laptops open. One chair is empty."
+        },
+        {
+          "type": "chat",
+          "from": "Meera",
+          "text": "Reserved. No questions asked. Come when you can."
+        },
+        {
+          "type": "narration",
+          "text": "A chair with his name on it, and he almost didn't come. He types: \"Can we talk? I haven't been doing well.\" He deletes it. He types it again."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Delete it and walk away; they deserve a teammate who's okay",
+          "next": "E01",
+          "routeNote": "Walked away from the canteen"
+        },
+        {
+          "id": "b",
+          "text": "Press send",
+          "next": "S09",
+          "routeNote": "Sent the message: \"Can we talk?\""
+        }
+      ]
+    },
+    {
+      "id": "S09",
+      "type": "scene",
+      "chapter": "That evening",
+      "title": "No Perfect Explanation",
+      "imageKey": "story_tcnn_s09",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Arjun says it plainly: he has been struggling, and substance use has become a pattern he can't manage on his own."
+        },
+        {
+          "type": "narration",
+          "text": "Amma is quiet for a very long time."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Amma",
+          "text": "I wish you'd told me earlier. But I'm glad you're telling me now."
+        },
+        {
+          "type": "narration",
+          "text": "She's frightened, and she has questions he can't answer yet. The conversation doesn't fix anything. But neither of them leaves the table."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Ask for a little time, and agree on one small step: a daily check-in call",
+          "next": "S11",
+          "routeNote": "Agreed a small first step with his mother"
+        },
+        {
+          "id": "b",
+          "text": "Ask Amma to help him find professional support",
+          "next": "S10",
+          "routeNote": "Asked his mother to help find professional support"
+        }
+      ],
+      "openingVariants": [
+        {
+          "cameFrom": ["S05"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "That evening, Arjun sits across from Amma. Karthik's text is still on his screen: \"Proud of you. Call me after.\""
+            }
+          ]
+        },
+        {
+          "cameFrom": ["S07"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "He walks home the long way. By the time he reaches the door, he has decided Amma should hear it from him."
+            }
+          ]
+        },
+        {
+          "cameFrom": ["S08"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "Meera reads the message, calls straight away, and says only: \"We're coming to you.\" By evening he is home, and Amma is waiting."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S10",
+      "type": "scene",
+      "chapter": "Later that week",
+      "title": "What Help Actually Means",
+      "imageKey": "story_tcnn_s10",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Dr. Nandhini explains that support isn't one-size-fits-all."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Dr. Nandhini",
+          "text": "Some people do well with regular outpatient care and community support. Others benefit from a more structured setting, including residential treatment. I can't promise any outcome, and you don't have to prove you're serious by choosing the hardest option."
+        },
+        {
+          "type": "narration",
+          "text": "She draws two rough columns in a notebook: what he needs, and what he's afraid of."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Start with a manageable plan: regular sessions and check-ins",
+          "next": "S11",
+          "routeNote": "Started with a manageable plan"
+        },
+        {
+          "id": "b",
+          "text": "Look into more structured care, including whether residential treatment suits him",
+          "next": "S12",
+          "routeNote": "Explored more structured care"
+        }
+      ],
+      "openingVariants": [
+        {
+          "cameFrom": ["S07"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "He asked the question, so Dr. Nandhini begins to answer it."
+            }
+          ]
+        },
+        {
+          "cameFrom": ["S09"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "Amma comes with him this time and sits quietly in the corner."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S11",
+      "type": "scene",
+      "chapter": "The next morning",
+      "title": "The First Ordinary Day",
+      "imageKey": "story_tcnn_s11",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "It isn't a movie montage. He's still tired. The assignments are still overdue. Things with Amma are still a little awkward."
+        },
+        {
+          "type": "narration",
+          "text": "But he attends one lecture. He answers one message. He writes the appointment in his planner."
+        },
+        {
+          "type": "narration",
+          "text": "That evening, the old pattern shows up right on schedule. The pull is familiar, and so is the thought: \"See? Asking for help changed nothing.\""
+        },
+        {
+          "type": "chat",
+          "from": "Rohan",
+          "text": "Plan's on tonight. You coming?"
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Hide it. He's embarrassed to still be struggling",
+          "next": "E02",
+          "routeNote": "Hid a hard evening from everyone"
+        },
+        {
+          "id": "b",
+          "text": "Text Karthik: \"Rough evening. Can you stay on the phone with me?\"",
+          "next": "S13",
+          "routeNote": "Reached out during a hard evening"
+        }
+      ],
+      "openingVariants": [
+        {
+          "cameFrom": ["S09"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "The next morning, he wakes before the alarm for the first time in weeks. That's the whole victory."
+            }
+          ]
+        },
+        {
+          "cameFrom": ["S10"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "The next morning, his planner has a new entry: \"Thursday, 4 PM, Dr. Nandhini.\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S12",
+      "type": "scene",
+      "chapter": "Saturday",
+      "title": "Beyond the Gate",
+      "imageKey": "story_tcnn_s12",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "After an assessment and long family conversations, Arjun visits a residential treatment centre with Amma, just to understand what care would involve."
+        },
+        {
+          "type": "narration",
+          "text": "The courtyard is quiet. The staff are respectful. He is still nervous about the unfamiliar routine, being away from home, and who might find out."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Staff member",
+          "text": "You can ask us anything. Being scared is allowed. You don't have to pretend otherwise."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Say it feels like too much right now and ask about other support options",
+          "next": "S14",
+          "routeNote": "Said residential care felt like too much, and asked about other options"
+        },
+        {
+          "id": "b",
+          "text": "Share his fears and work with the care team on a plan that fits",
+          "next": "S13",
+          "routeNote": "Shared his fears and worked on a plan with the care team"
+        }
+      ]
+    },
+    {
+      "id": "S13",
+      "type": "scene",
+      "chapter": "Late afternoon",
+      "title": "A Difficult Conversation",
+      "imageKey": "story_tcnn_s13",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Arjun tells Karthik about the hard night. He braces for disappointment."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Karthik",
+          "text": "I'm glad you told me. I mean it. But I can listen, da. I can't be your whole plan. That's what Dr. Nandhini is for."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Karthik",
+          "text": "Also, I patched your tracking module so the demo wouldn't crash. I should have told you. I didn't want to embarrass you."
+        },
+        {
+          "type": "narration",
+          "text": "Arjun laughs for the first time in weeks, then has to wipe his eyes. Getting better, he is starting to see, isn't never having a bad day. It's having people, noticing early, and taking the next step without calling yourself a lost cause."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Admit he still has questions and book a review of his support plan",
+          "next": "S14",
+          "routeNote": "Booked a review of his support plan"
+        },
+        {
+          "id": "b",
+          "text": "Start rebuilding one step at a time: his module, his debts, his routine",
+          "next": "E03",
+          "routeNote": "Started rebuilding one step at a time"
+        }
+      ],
+      "openingVariants": [
+        {
+          "cameFrom": ["S11"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "Karthik is on the park bench in under fifteen minutes, hair wet from the rain."
+            }
+          ]
+        },
+        {
+          "cameFrom": ["S12"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "A few days later, Arjun asks Karthik to meet him on the park bench near the college gate."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S14",
+      "type": "scene",
+      "chapter": "Another week",
+      "title": "Not One Straight Road",
+      "imageKey": "story_tcnn_s14",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Arjun has learned that no single conversation fixes everything."
+        },
+        {
+          "type": "narration",
+          "text": "He still worries about his future, his family, and whether he can keep any of this up."
+        },
+        {
+          "type": "narration",
+          "text": "This time, instead of pretending he has the answers, he says what has been hard and asks what should change in the plan."
+        },
+        {
+          "type": "narration",
+          "text": "The road ahead is uncertain. But uncertain no longer means alone."
+        }
+      ],
+      "choices": [
+        {
+          "id": "a",
+          "text": "Take more time to understand his options before committing to the next step",
+          "next": "E02",
+          "routeNote": "Took more time before the next step"
+        },
+        {
+          "id": "b",
+          "text": "Keep going with support, accepting that progress may take time",
+          "next": "E03",
+          "routeNote": "Kept going with support, accepting it takes time"
+        }
+      ],
+      "openingVariants": [
+        {
+          "cameFrom": ["S12"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "Dr. Nandhini sits with him and Amma to build a plan that isn't only about the gate he walked through."
+            }
+          ]
+        },
+        {
+          "cameFrom": ["S13"],
+          "beats": [
+            {
+              "type": "narration",
+              "text": "He goes back to Dr. Nandhini with a list of questions and a notebook."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E01",
+      "type": "ending",
+      "endingType": "unresolved",
+      "label": "Unresolved ending",
+      "title": "The Distance Grows",
+      "imageKey": "story_tcnn_e01",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Arjun stays where he is. The pressures of college and home stay unresolved, and the distance between him and the people who might help grows a little each day."
+        },
+        {
+          "type": "narration",
+          "text": "That night his phone glows on the desk. Unread: Meera, 14. Karthik, 9. Amma, 21."
+        },
+        {
+          "type": "narration",
+          "text": "Each message begins the same way: \"We noticed.\""
+        },
+        {
+          "type": "narration",
+          "text": "This is a hard point in the story, but it is not a prediction of what must happen to someone in Arjun's position. The door is still open."
+        }
+      ],
+      "reflection": "Avoiding a difficult conversation can feel like relief for a moment, but it can make problems harder to face. People often notice more than we think, and a first message can be a single sentence.",
+      "actions": [
+        "try_another_path",
+        "replay"
+      ]
+    },
+    {
+      "id": "E02",
+      "type": "ending",
+      "endingType": "uncertain",
+      "label": "Unresolved ending",
+      "title": "Not There Yet",
+      "imageKey": "story_tcnn_e02",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Arjun has started to name what he is facing, but he hasn't found a plan he feels ready to follow every day."
+        },
+        {
+          "type": "narration",
+          "text": "One morning, by the window, he opens his planner. The page with the appointment is still there."
+        },
+        {
+          "type": "chat",
+          "from": "Karthik",
+          "text": "No timer on this, da. Whenever you're ready, I'm here."
+        },
+        {
+          "type": "narration",
+          "text": "His story isn't finished. Reaching out again is still possible, and a setback doesn't erase the steps already taken."
+        }
+      ],
+      "reflection": "Asking for help can take more than one attempt. Uncertainty or a setback does not mean someone has failed.",
+      "actions": [
+        "try_another_path",
+        "replay"
+      ]
+    },
+    {
+      "id": "E03",
+      "type": "ending",
+      "endingType": "supported",
+      "label": "Story completed",
+      "title": "A Different Beginning",
+      "imageKey": "story_tcnn_e03",
+      "beats": [
+        {
+          "type": "narration",
+          "text": "Three weeks later. Morning light on the campus path. Arjun walks with his backpack, Karthik beside him, Meera a few steps ahead, still talking about the rebuilt demo."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Meera",
+          "text": "Next time you're stuck, tell us by Tuesday, not Friday. Deal?"
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Arjun",
+          "text": "Deal."
+        },
+        {
+          "type": "dialogue",
+          "speaker": "Karthik",
+          "text": "Also, the wellness centre has a waiting list now. Apparently asking for help is contagious."
+        },
+        {
+          "type": "narration",
+          "text": "Life isn't suddenly perfect. There is still work to do, and some days will be hard. But Arjun no longer believes he has to solve everything alone."
+        }
+      ],
+      "reflection": "Professional support, trusted relationships and practical steps can all play a part in change. There is no single route, and no setting or plan can guarantee an outcome.",
+      "actions": [
+        "replay",
+        "explore_other_choices",
+        "see_explore"
+      ]
+    }
+  ]
+}

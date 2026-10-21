@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ലഹരിമുക്ത ഭാരതം</string>
-    <string name="app_tagline">ശക്തമായ യുവത്വം | ആരോഗ്യകരമായ നാളെ</string>
+    <string name="app_name">VILZO</string>
+    <string name="app_tagline">Vibrant India Zero Overdose</string>
     <string name="app_message">വെറും ബോധവൽക്കരണം മാത്രമല്ല. യഥാർത്ഥ പിന്തുണ. മികച്ച തിരഞ്ഞെടുപ്പുകൾ.</string>
     <string name="nav_home">ഹോം</string>
     <string name="nav_play">കളിക്കുക</string>

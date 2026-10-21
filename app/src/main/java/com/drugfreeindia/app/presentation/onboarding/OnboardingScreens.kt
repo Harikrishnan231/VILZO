@@ -12,6 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -98,7 +99,7 @@ import com.google.android.gms.location.Priority
 @Composable
 fun LogoMark(size: androidx.compose.ui.unit.Dp = 56.dp) {
     Box(Modifier.size(size).clip(DfiTheme.shapes.tile).background(DfiTheme.colors.primarySoft), contentAlignment = Alignment.Center) {
-        androidx.compose.foundation.Image(painterResource(R.drawable.ic_launcher_foreground), contentDescription = "Drug-Free India logo", modifier = Modifier.size(size * 1.4f))
+        androidx.compose.foundation.Image(painterResource(R.drawable.vilzo_logo_mark), contentDescription = "VILZO logo", modifier = Modifier.size(size * 1.4f))
     }
 }
 
@@ -153,71 +154,51 @@ fun AuthScreen(
     val context = LocalContext.current
     LaunchedEffect(signIn) { vm.setMode(signIn) }
     LaunchedEffect(Unit) { vm.effects.collect { if (it is AuthEffect.Done) onDone(it.needsLocation) } }
-    BackHandler(s.step == AuthStep.OTP) { vm.backToForm() }
 
     val c = DfiTheme.colors
     Column(Modifier.fillMaxSize().background(c.background).imePadding()) {
-        TopBar("", onBack = { if (s.step == AuthStep.OTP) vm.backToForm() else onBack() })
+        TopBar("", onBack = onBack)
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(horizontal = 24.dp)) {
             LogoMark(48.dp)
             Spacer(Modifier.height(16.dp))
-            if (s.step == AuthStep.FORM) {
-                Text(if (s.signIn) "Welcome back" else "Create your account", style = DfiTheme.typography.screenTitle, color = c.onSurface)
-                Spacer(Modifier.height(6.dp))
-                Text(if (s.signIn) "Sign in with the phone, email or Google account you used before." else "It takes a minute. We only ask for what we need.",
+            Text("Welcome to VILZO", style = DfiTheme.typography.screenTitle, color = c.onSurface)
+            Spacer(Modifier.height(6.dp))
+            Text("Empowering youth with awareness, confidential support, and healthy lifestyle choices.",
+                style = DfiTheme.typography.bodySmall, color = c.onSurfaceVariant)
+            Spacer(Modifier.height(24.dp))
+
+            // Student Sign In Card
+            DfiCard(Modifier.fillMaxWidth(), padding = PaddingValues(18.dp)) {
+                Tag("Students", color = c.primaryDark, bg = c.primarySoft)
+                Spacer(Modifier.height(10.dp))
+                Text("Student Sign In", style = DfiTheme.typography.cardTitle, color = c.onSurface)
+                Spacer(Modifier.height(4.dp))
+                Text("Sign in with Google to save progress, participate in competitions, and file confidential reports.",
                     style = DfiTheme.typography.bodySmall, color = c.onSurfaceVariant)
-                Spacer(Modifier.height(24.dp))
-                if (!s.signIn) {
-                    DfiTextField(s.name, vm::onName, "Full name", placeholder = "Your name", error = s.nameError,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next))
-                    Spacer(Modifier.height(16.dp))
-                }
-                if (!s.useEmail) {
-                    Text("Phone number", style = DfiTheme.typography.labelSmall, color = c.onSurface)
-                    Spacer(Modifier.height(6.dp))
-                    Row(verticalAlignment = Alignment.Top) {
-                        DfiTextField(s.countryCode, vm::onCountry, "Code", Modifier.width(88.dp),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone, imeAction = ImeAction.Next))
-                        Spacer(Modifier.width(10.dp))
-                        DfiTextField(s.phone, vm::onPhone, "Mobile", Modifier.weight(1f), placeholder = "98765 43210", error = s.contactError,
-                            leading = { Icon(Icons.Rounded.Phone, null, tint = c.onSurfaceVariant) },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone, imeAction = ImeAction.Done))
-                    }
-                } else {
-                    DfiTextField(s.email, vm::onEmail, "Email", placeholder = "you@example.com", error = s.contactError,
-                        leading = { Icon(Icons.Rounded.Email, null, tint = c.onSurfaceVariant) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Done))
-                }
-                LinkButton(if (s.useEmail) "Use phone number instead" else "Use email instead", vm::toggleEmail)
-                s.error?.let { Spacer(Modifier.height(8.dp)); ErrorState(it) }
                 Spacer(Modifier.height(16.dp))
-                PrimaryButton(if (s.signIn) "Send code" else "Next", vm::sendCode, Modifier.fillMaxWidth(), loading = s.loading)
-                Spacer(Modifier.height(12.dp))
-                OrDivider()
-                Spacer(Modifier.height(12.dp))
-                SecondaryButton("Continue with Google", { vm.google(context) }, Modifier.fillMaxWidth(),
-                    enabled = !s.googleLoading, contentColor = c.onSurface)
-                if (!vm.googleConfigured) {
-                    Spacer(Modifier.height(6.dp))
-                    Text("Google sign-in will be available once it's configured for this app.", style = DfiTheme.typography.caption, color = c.onSurfaceVariant)
-                }
-                Spacer(Modifier.height(12.dp))
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    Text(if (s.signIn) "New here?" else "Already have an account?", style = DfiTheme.typography.bodySmall, color = c.onSurfaceVariant)
-                    LinkButton(if (s.signIn) "Create account" else "Sign in", { vm.setMode(!s.signIn) })
-                }
-                LinkButton("Continue without an account", onGuest, Modifier.align(Alignment.CenterHorizontally), color = c.onSurfaceVariant)
-                Text("Without an account you can practise and use Help. Scores and progress stay on this device.",
-                    style = DfiTheme.typography.caption, color = c.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-                Spacer(Modifier.height(16.dp))
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    LinkButton("Terms", { onLegal("terms") }, color = c.onSurfaceVariant)
-                    LinkButton("Privacy", { onLegal("privacy") }, color = c.onSurfaceVariant)
-                }
-                Spacer(Modifier.height(24.dp))
-            } else {
-                OtpStep(s, vm)
+                PrimaryButton(
+                    text = "Continue with Google",
+                    onClick = { vm.google(context) },
+                    modifier = Modifier.fillMaxWidth(),
+                    loading = s.googleLoading
+                )
             }
+
+            s.error?.let {
+                Spacer(Modifier.height(14.dp))
+                ErrorState(it)
+            }
+
+            Spacer(Modifier.height(24.dp))
+            LinkButton("Continue without an account (Guest Mode)", onGuest, Modifier.align(Alignment.CenterHorizontally), color = c.onSurfaceVariant)
+            Text("Without an account you can practise scenarios and view helplines. Scores and progress stay on this device.",
+                style = DfiTheme.typography.caption, color = c.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+            Spacer(Modifier.height(16.dp))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                LinkButton("Terms", { onLegal("terms") }, color = c.onSurfaceVariant)
+                LinkButton("Privacy", { onLegal("privacy") }, color = c.onSurfaceVariant)
+            }
+            Spacer(Modifier.height(24.dp))
         }
     }
 }
@@ -309,6 +290,25 @@ fun LocationScreen(editing: Boolean, onBack: (() -> Unit)?, onDone: () -> Unit, 
             Spacer(Modifier.height(6.dp))
             Text("We use this to show activities and help near you.", style = DfiTheme.typography.bodySmall, color = c.onSurfaceVariant)
             Spacer(Modifier.height(20.dp))
+
+            if (s.signedIn) {
+                Text("Personal details", style = DfiTheme.typography.labelSmall, color = c.onSurface)
+                Spacer(Modifier.height(6.dp))
+                DfiTextField(
+                    value = s.fullName,
+                    onValueChange = vm::onFullName,
+                    label = "Full name",
+                    placeholder = "Your full name"
+                )
+                Spacer(Modifier.height(10.dp))
+                DfiTextField(
+                    value = s.phone,
+                    onValueChange = vm::onPhone,
+                    label = "Mobile number",
+                    placeholder = "10-digit mobile number"
+                )
+                Spacer(Modifier.height(18.dp))
+            }
 
             // City
             Text("City", style = DfiTheme.typography.labelSmall, color = c.onSurface)

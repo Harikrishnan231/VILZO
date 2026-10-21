@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Chat
+import androidx.compose.material.icons.automirrored.rounded.Chat
 import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Home
@@ -22,6 +24,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -53,8 +56,10 @@ import com.drugfreeindia.app.presentation.impact.SurveyScreen
 import com.drugfreeindia.app.presentation.onboarding.AuthScreen
 import com.drugfreeindia.app.presentation.onboarding.LocationScreen
 import com.drugfreeindia.app.presentation.onboarding.WelcomeScreen
+import com.drugfreeindia.app.presentation.play.CinematicStoryScreen
 import com.drugfreeindia.app.presentation.play.GameScreen
 import com.drugfreeindia.app.presentation.play.PlayScreen
+import com.drugfreeindia.app.presentation.play.StoryLibraryScreen
 import com.drugfreeindia.app.presentation.profile.ProfileScreen
 
 @Composable
@@ -71,17 +76,17 @@ fun RootNavigation(
     val bottomItems = listOf(
         BottomItem(stringResource(R.string.nav_home), Icons.Outlined.Home, Icons.Rounded.Home),
         BottomItem(stringResource(R.string.nav_play), Icons.Outlined.PlayCircleOutline, Icons.Rounded.PlayCircle),
-        BottomItem(stringResource(R.string.nav_help), Icons.Outlined.HelpOutline, Icons.Rounded.Help),
+        BottomItem("Chat", Icons.AutoMirrored.Outlined.Chat, Icons.AutoMirrored.Rounded.Chat),
         BottomItem(stringResource(R.string.nav_explore), Icons.Outlined.Explore, Icons.Rounded.Explore),
-        BottomItem(stringResource(R.string.nav_impact), Icons.Outlined.Insights, Icons.Rounded.Insights)
+        BottomItem(stringResource(R.string.nav_help), Icons.Outlined.HelpOutline, Icons.Rounded.Help)
     )
 
     val currentTabIndex = when (currentRoute) {
         Routes.HOME -> 0
         Routes.PLAY -> 1
-        Routes.HELP -> 2
+        Routes.CHAT, Routes.STUDENT_GRIEVANCE -> 2
         Routes.EXPLORE -> 3
-        Routes.IMPACT -> 4
+        Routes.HELP -> 4
         else -> -1
     }
 
@@ -110,12 +115,23 @@ fun RootNavigation(
         Box(Modifier.fillMaxSize()) {
             NavHost(
                 navController = navController,
-                startDestination = startDestination,
+                startDestination = Routes.SPLASH,
                 enterTransition = { EnterTransition.None },
                 exitTransition = { ExitTransition.None },
                 popEnterTransition = { EnterTransition.None },
                 popExitTransition = { ExitTransition.None }
             ) {
+                // Animated Brand Startup Screen
+                composable(Routes.SPLASH) {
+                    com.drugfreeindia.app.presentation.onboarding.VilzoSplashAnimationScreen(
+                        onAnimationComplete = {
+                            navController.navigate(startDestination) {
+                                popUpTo(Routes.SPLASH) { inclusive = true }
+                            }
+                        }
+                    )
+                }
+
                 // Onboarding
                 composable(Routes.WELCOME) {
                     WelcomeScreen(
@@ -202,7 +218,8 @@ fun RootNavigation(
                     ColumnWithOffline(isOnline) {
                         PlayScreen(
                             contentPadding = innerPadding,
-                            onOpenStory = { storyId -> navController.navigate(Routes.story(storyId)) }
+                            onOpenStory = { storyId -> navController.navigate(Routes.story(storyId)) },
+                            onExploreStories = { navController.navigate(Routes.STORY_LIBRARY) }
                         )
                     }
                 }
@@ -216,6 +233,7 @@ fun RootNavigation(
                             onCentres = { navController.navigate(Routes.CENTRES) },
                             onFriend = { navController.navigate(Routes.HELP_FRIEND) },
                             onPrivacy = { navController.navigate(Routes.PRIVACY) },
+                            onGrievance = { navController.navigate(Routes.STUDENT_GRIEVANCE) },
                             onQuickExit = {
                                 navController.navigate(Routes.QUICK_EXIT) {
                                     popUpTo(0) { inclusive = true }
@@ -223,6 +241,28 @@ fun RootNavigation(
                             }
                         )
                     }
+                }
+
+
+                // Anonymous Student Grievance & Chat (Direct Tab & Help route)
+                composable(Routes.CHAT) {
+                    ColumnWithOffline(isOnline) {
+                        com.drugfreeindia.app.presentation.help.StudentGrievanceRootScreen(
+                            onBack = {
+                                navController.navigate(Routes.HOME) {
+                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            }
+                        )
+                    }
+                }
+
+                composable(Routes.STUDENT_GRIEVANCE) {
+                    com.drugfreeindia.app.presentation.help.StudentGrievanceRootScreen(
+                        onBack = { navController.popBackStack() }
+                    )
                 }
 
                 composable(Routes.EXPLORE) {
@@ -243,6 +283,7 @@ fun RootNavigation(
                             contentPadding = innerPadding,
                             onSurvey = { navController.navigate(Routes.SURVEY) },
                             onSignIn = { navController.navigate(Routes.auth(signIn = true)) },
+                            onBack = { navController.popBackStack() },
                             vm = impactVm
                         )
                     }
@@ -256,10 +297,39 @@ fun RootNavigation(
                     GameScreen(onClose = { navController.popBackStack() })
                 }
 
+                // Cinematic Story Mode
+                composable(Routes.STORY_LIBRARY) {
+                    StoryLibraryScreen(
+                        onBack = { navController.popBackStack() },
+                        onOpenStory = { id -> navController.navigate(Routes.cinematicStory(id)) }
+                    )
+                }
+
+                composable(
+                    route = Routes.CINEMATIC_STORY,
+                    arguments = listOf(navArgument("id") { type = NavType.StringType })
+                ) { entry ->
+                    val storyId = entry.arguments?.getString("id") ?: "the_changes_nobody_noticed"
+                    CinematicStoryScreen(
+                        storyId = storyId,
+                        onBack = { navController.popBackStack() },
+                        onFinish = { navController.popBackStack() },
+                        onOpenHelp = { navController.navigate(Routes.HELP) },
+                        onExplore = {
+                            navController.navigate(Routes.EXPLORE) {
+                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
+                }
+
                 // Profile
                 composable(Routes.PROFILE) {
                     ProfileScreen(
                         onBack = { navController.popBackStack() },
+                        onImpact = { navController.navigate(Routes.IMPACT) },
                         onEditLocation = { navController.navigate(Routes.location(edit = true)) },
                         onContacts = { navController.navigate(Routes.CONTACTS) },
                         onPrivacy = { navController.navigate(Routes.PRIVACY) },

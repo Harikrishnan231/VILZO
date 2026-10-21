@@ -124,19 +124,26 @@ fun SecondaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    loading: Boolean = false,
     icon: ImageVector? = null,
     contentColor: Color = DfiTheme.colors.primaryDark
 ) {
     val c = DfiTheme.colors
     val src = remember { MutableInteractionSource() }
+    val active = enabled && !loading
     Surface(
-        onClick = onClick, enabled = enabled, shape = DfiTheme.shapes.button, color = c.surface,
-        contentColor = if (enabled) contentColor else c.disabled,
-        border = BorderStroke(1.dp, c.outline), interactionSource = src,
+        onClick = onClick, enabled = active, shape = DfiTheme.shapes.button, color = c.surface,
+        contentColor = if (active) contentColor else c.disabled,
+        border = BorderStroke(1.dp, if (active) c.outline else c.disabled), interactionSource = src,
         modifier = modifier.heightIn(min = 52.dp).scale(pressScale(src))
     ) {
         Row(Modifier.padding(horizontal = 18.dp, vertical = 14.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            if (icon != null) { Icon(icon, null, Modifier.size(20.dp)); Spacer(Modifier.width(8.dp)) }
+            if (loading) {
+                CircularProgressIndicator(Modifier.size(18.dp), color = contentColor, strokeWidth = 2.dp)
+                Spacer(Modifier.width(10.dp))
+            } else if (icon != null) {
+                Icon(icon, null, Modifier.size(20.dp)); Spacer(Modifier.width(8.dp))
+            }
             Text(text, style = DfiTheme.typography.label, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
     }

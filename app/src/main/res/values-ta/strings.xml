@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">போதையற்ற இந்தியா</string>
-    <string name="app_tagline">வலிமையான இளமை | ஆரோக்கியமான எதிர்காலம்</string>
+    <string name="app_name">VILZO</string>
+    <string name="app_tagline">Vibrant India Zero Overdose</string>
     <string name="app_message">வெறும் விழிப்புணர்வு மட்டுமல்ல. உண்மையான ஆதரவு. சிறந்த தேர்வுகள்.</string>
 
     <string name="nav_home">முகப்பு</string>

@@ -23,6 +23,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 
 object Routes {
+    const val SPLASH = "splash"
     const val WELCOME = "welcome"
     const val AUTH = "auth?signIn={signIn}"
     fun auth(signIn: Boolean) = "auth?signIn=$signIn"
@@ -32,13 +33,17 @@ object Routes {
 
     const val HOME = "home"
     const val PLAY = "play"
-    const val HELP = "help"
+    const val CHAT = "chat"
     const val EXPLORE = "explore"
+    const val HELP = "help"
     const val IMPACT = "impact"
-    val tabs = listOf(HOME, PLAY, HELP, EXPLORE, IMPACT)
+    val tabs = listOf(HOME, PLAY, CHAT, EXPLORE, HELP)
 
     const val STORY = "story/{id}"
     fun story(id: String) = "story/$id"
+    const val STORY_LIBRARY = "story_mode"
+    const val CINEMATIC_STORY = "story_mode/{id}"
+    fun cinematicStory(id: String) = "story_mode/$id"
     const val PROFILE = "profile"
     const val CONTACTS = "help/contacts"
     const val HELPLINES = "help/helplines"
@@ -51,6 +56,10 @@ object Routes {
     const val SUBMIT_ACTIVITY = "explore/submit"
     const val MY_SUBMISSIONS = "explore/mine"
     const val SURVEY = "impact/survey"
+    const val COLLEGE_ADMIN = "college_admin"
+    const val STUDENT_GRIEVANCE = "help/grievance"
+    const val STUDENT_GRIEVANCE_CHAT = "help/grievance/{id}"
+    fun studentGrievanceChat(id: String) = "help/grievance/$id"
     const val LEGAL = "legal/{kind}"
     fun legal(kind: String) = "legal/$kind"
 }

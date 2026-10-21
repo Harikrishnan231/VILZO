@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Drug-Free India</string>
-    <string name="app_tagline">Stronger Youth | Healthier Tomorrow</string>
+    <string name="app_name">VILZO</string>
+    <string name="app_tagline">Vibrant India Zero Overdose</string>
     <string name="app_message">Not just awareness. Real support. Better choices. A brighter future.</string>
 
     <!-- Navigation -->

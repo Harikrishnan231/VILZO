@@ -112,6 +112,7 @@ fun HelpScreen(
     onFriend: () -> Unit,
     onPrivacy: () -> Unit,
     onQuickExit: () -> Unit,
+    onGrievance: () -> Unit = {},
     vm: HelpViewModel = hiltViewModel()
 ) {
     val c = DfiTheme.colors
@@ -136,6 +137,8 @@ fun HelpScreen(
         }
         Spacer(Modifier.height(16.dp))
         DfiCard(Modifier.padding(horizontal = 20.dp).fillMaxWidth(), padding = PaddingValues(vertical = 4.dp)) {
+            ListRow("Anonymous campus grievance", subtitle = "Confidential chat with your college cell", icon = Icons.Rounded.Shield, onClick = onGrievance)
+            Divider()
             ListRow("Trusted contacts", subtitle = "Up to 5 people, saved only on this phone", icon = Icons.Rounded.Favorite, onClick = onContacts)
             Divider()
             ListRow("Helplines", subtitle = "Free numbers you can call, including 112", icon = Icons.Rounded.Call, onClick = onHelplines)

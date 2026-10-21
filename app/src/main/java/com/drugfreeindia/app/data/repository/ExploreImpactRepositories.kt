@@ -36,12 +36,12 @@ class ExploreRepository @Inject constructor(
 
     /** Published listings only (RLS also returns the user's own pending ones – filtered out here). No bundled fake events. */
     suspend fun activities(): Loaded<List<Activity>> =
-        content.load("activities", ListSerializer(Activity.serializer()), { emptyList() }) {
+        content.load("activities", ListSerializer(Activity.serializer()), { content.bundledActivities }) {
             supabase.from("activities").select {
                 filter { eq("status", "published") }
                 order("starts_at", Order.ASCENDING, nullsFirst = false)
                 limit(200)
-            }.decodeList<Activity>()
+            }.decodeList<Activity>().ifEmpty { content.bundledActivities }
         }
 
     suspend fun mySignupIds(): Set<String> {

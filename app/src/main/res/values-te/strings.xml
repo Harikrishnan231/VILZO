@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">డ్రగ్ ఫ్రీ ఇండియా</string>
-    <string name="app_tagline">బలమైన యువత | ఆరోగ్యకరమైన రేపు</string>
+    <string name="app_name">VILZO</string>
+    <string name="app_tagline">Vibrant India Zero Overdose</string>
     <string name="app_message">కేవలం అవగాహన మాత్రమే కాదు. నిజమైన మద్దతు. ఉత్తమ ఎంపికలు.</string>
     <string name="nav_home">హోమ్</string>
     <string name="nav_play">ఆడండి</string>

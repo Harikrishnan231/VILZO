@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ಡ್ರಗ್ ಮುಕ್ತ ಭಾರತ</string>
-    <string name="app_tagline">ಬಲಿಷ್ಠ ಯುವಜನತೆ | ಆರೋಗ್ಯಕರ ನಾಳೆ</string>
+    <string name="app_name">VILZO</string>
+    <string name="app_tagline">Vibrant India Zero Overdose</string>
     <string name="app_message">ಕೇವಲ ಜಾಗೃತಿಯಷ್ಟೇ ಅಲ್ಲ. ನೈಜ ಬೆಂಬಲ. ಉತ್ತಮ ಆಯ್ಕೆಗಳು.</string>
     <string name="nav_home">ಮುಖಪುಟ</string>
     <string name="nav_play">ಆಟವಾಡಿ</string>

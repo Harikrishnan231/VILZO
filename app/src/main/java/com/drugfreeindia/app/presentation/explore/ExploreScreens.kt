@@ -144,17 +144,14 @@ class ExploreViewModel @Inject constructor(
     init { load() }
 
     fun load() = viewModelScope.launch {
-        _state.update { it.copy(loading = true, error = null) }
         val cities = content.cities().data
-        val slug = prefs.current().citySlug
-        val cityId = profiles.profile.value?.cityId ?: cities.firstOrNull { it.slug == slug }?.id
         val r = repo.activities()
         val joined = repo.mySignupIds()
         val mentors = repo.mentors()
         _state.update {
             it.copy(loading = false, signedIn = auth.userId != null, activities = r.data, source = r.source,
                 error = if (r.data.isEmpty() && r.error != null && r.error.code !in setOf("not_set_up")) r.error.message else null,
-                joined = joined, mentors = mentors, cities = cities, cityId = it.cityId ?: cityId?.takeUnless { id -> id.startsWith("local:") && r.data.none { a -> a.cityId == id } })
+                joined = joined, mentors = mentors, cities = cities, cityId = it.cityId)
         }
     }
 
@@ -222,17 +219,17 @@ fun ExploreScreen(
 ) {
     val s by vm.state.collectAsState()
     val c = DfiTheme.colors
-    val tabs = buildList { add("Activities"); add("Events"); if (s.mentors.isNotEmpty()) add("Mentors") }
+    val tabs = buildList { add("Events"); add("Activities"); if (s.mentors.isNotEmpty()) add("Mentors") }
     var cityMenu by rememberSaveable { mutableStateOf(false) }
 
     LazyColumn(Modifier.fillMaxSize().background(c.background), contentPadding = PaddingValues(bottom = contentPadding.calculateBottomPadding() + 24.dp)) {
         item {
             Column(Modifier.statusBarsPadding().padding(start = 20.dp, end = 20.dp, top = 16.dp)) {
-                ScreenTitle("Explore & connect", "Discover healthy activities and opportunities near you.")
+                ScreenTitle("Explore & connect", "Discover healthy activities, hackathons and youth opportunities.")
                 Spacer(Modifier.height(16.dp))
                 SegmentedTabs(tabs, s.tab.coerceAtMost(tabs.lastIndex), vm::setTab)
                 Spacer(Modifier.height(12.dp))
-                if (s.tab != 2) SearchField(s.query, vm::onQuery, "Search activities in your city")
+                if (s.tab != 2) SearchField(s.query, vm::onQuery, if (s.tab == 0) "Search events & hackathons..." else "Search activities & clubs...")
                 Spacer(Modifier.height(10.dp))
             }
         }
@@ -242,10 +239,6 @@ fun ExploreScreen(
                 Row(Modifier.padding(horizontal = 20.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     FilterPill(s.cityName ?: "All cities", s.cityId != null) { cityMenu = !cityMenu }
                     Spacer(Modifier.weight(1f))
-                    if (s.signedIn) {
-                        IconButton(onClick = onMine) { Icon(Icons.Rounded.Inbox, "My submissions", tint = c.onSurfaceVariant) }
-                        IconButton(onClick = onSubmit) { Icon(Icons.Rounded.Add, "Submit an activity", tint = c.primaryDark) }
-                    }
                 }
                 if (cityMenu) {
                     Row(Modifier.padding(horizontal = 20.dp).fillMaxWidth()) {
@@ -266,13 +259,13 @@ fun ExploreScreen(
             s.error != null -> item { ErrorState(s.error!!, Modifier.padding(20.dp), onRetry = { vm.load() }) }
             s.tab == 2 -> items(s.mentors, key = { it.id }) { m -> MentorRow(m) }
             else -> {
-                val list = if (s.tab == 0) s.clubs else s.events
+                val list = if (s.tab == 0) s.events else s.clubs
                 if (list.isEmpty()) item {
                     Column(Modifier.padding(horizontal = 20.dp)) {
                         EmptyState(
-                            if (s.activities.isEmpty()) "No activities found in your area yet." else "Nothing matches these filters.",
-                            if (s.activities.isEmpty()) (if (isSupabaseConfigured) "When organisers publish activities, they'll appear here. You can also suggest one." else "Activities appear here once the server is set up.")
-                            else "Try another category or city.",
+                            if (s.activities.isEmpty()) "No listings found in your area yet." else "Nothing matches these filters.",
+                            if (s.activities.isEmpty()) (if (isSupabaseConfigured) "Events and activities published by organisers will appear here." else "Listings appear here once connected.")
+                            else "Try another category or switch to 'All cities'.",
                             imageKey = "empty_activities", fallback = FallbackArt.HILLS
                         )
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -281,11 +274,11 @@ fun ExploreScreen(
                         }
                     }
                 } else {
-                    if (s.tab == 1) item { SectionHeader("Happening in ${s.cityName ?: "your city"}", Modifier.padding(horizontal = 20.dp)) }
-                    else item { SectionHeader("Popular clubs", Modifier.padding(horizontal = 20.dp)) }
+                    if (s.tab == 0) item { SectionHeader("Upcoming events across ${s.cityName ?: "all cities"}", Modifier.padding(horizontal = 20.dp)) }
+                    else item { SectionHeader("Active clubs & student initiatives", Modifier.padding(horizontal = 20.dp)) }
                     items(list, key = { it.id }) { a ->
-                        if (s.tab == 1) EventCard(a, vm.coverUrl(a), joined = a.id in s.joined, onClick = { onActivity(a.id) })
-                        else ClubRow(a, onClick = { onActivity(a.id) })
+                        if (s.tab == 0) EventCard(a, vm.coverUrl(a), joined = a.id in s.joined, onClick = { onActivity(a.id) })
+                        else ActivityCard(a, vm.coverUrl(a), joined = a.id in s.joined, onClick = { onActivity(a.id) })
                     }
                 }
             }
@@ -302,7 +295,7 @@ private fun EventCard(a: Activity, coverPath: String?, joined: Boolean, onClick:
     val c = DfiTheme.colors
     DfiCard(Modifier.padding(horizontal = 20.dp, vertical = 6.dp).fillMaxWidth(), onClick = onClick, padding = PaddingValues(0.dp)) {
         Box {
-            CoverImage(a, coverPath, Modifier.fillMaxWidth().height(140.dp))
+            CoverImage(a, coverPath, Modifier.fillMaxWidth().height(148.dp))
             Format.dayBadge(a.startsAt)?.let { (d, m) ->
                 Column(Modifier.padding(12.dp).clip(DfiTheme.shapes.tile).background(c.surface).padding(horizontal = 10.dp, vertical = 6.dp),
                     horizontalAlignment = Alignment.CenterHorizontally) {
@@ -318,7 +311,29 @@ private fun EventCard(a: Activity, coverPath: String?, joined: Boolean, onClick:
                 if (joined) { Spacer(Modifier.width(6.dp)); Tag("Joined", color = c.success) }
             }
             Text(a.organiserName, style = DfiTheme.typography.bodySmall, color = c.onSurfaceVariant)
-            Text(listOfNotNull(Format.dateTime(a.startsAt) ?: a.recurrenceText, a.venue).joinToString(" · "), style = DfiTheme.typography.caption, color = c.onSurfaceVariant)
+            Text(listOfNotNull(a.dateLabel ?: Format.dateTime(a.startsAt) ?: a.recurrenceText, a.locationText ?: a.venue).joinToString(" · "), style = DfiTheme.typography.caption, color = c.onSurfaceVariant)
+        }
+    }
+}
+
+@Composable
+private fun ActivityCard(a: Activity, coverPath: String?, joined: Boolean, onClick: () -> Unit) {
+    val c = DfiTheme.colors
+    DfiCard(Modifier.padding(horizontal = 20.dp, vertical = 6.dp).fillMaxWidth(), onClick = onClick, padding = PaddingValues(0.dp)) {
+        Box {
+            CoverImage(a, coverPath, Modifier.fillMaxWidth().height(148.dp))
+            Row(Modifier.padding(12.dp).align(Alignment.TopStart)) {
+                Tag(activityCategories[a.category] ?: a.category.replaceFirstChar { it.uppercase() }, color = c.primaryDark, bg = c.surface.copy(alpha = 0.92f))
+            }
+        }
+        Column(Modifier.padding(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(a.title, style = DfiTheme.typography.cardTitle, color = c.onSurface, modifier = Modifier.weight(1f), maxLines = 2, overflow = TextOverflow.Ellipsis)
+                if (a.isDemo) Tag("Demo")
+                if (joined) { Spacer(Modifier.width(6.dp)); Tag("Joined", color = c.success) }
+            }
+            Text(a.organiserName, style = DfiTheme.typography.bodySmall, color = c.onSurfaceVariant)
+            Text(listOfNotNull(a.dateLabel ?: a.recurrenceText, a.locationText ?: a.venue).joinToString(" · "), style = DfiTheme.typography.caption, color = c.onSurfaceVariant)
         }
     }
 }
@@ -327,7 +342,7 @@ private fun EventCard(a: Activity, coverPath: String?, joined: Boolean, onClick:
 private fun CoverImage(a: Activity, path: String?, modifier: Modifier) {
     val url = path?.let { p -> if (p.startsWith("http")) p else null }
     if (url != null) AsyncImage(url, null, modifier, contentScale = ContentScale.Crop)
-    else AppImage("cat_${a.category}", null, modifier, fallback = FallbackArt.HILLS)
+    else AppImage(a.coverImageKey ?: "cat_${a.category}", null, modifier, fallback = FallbackArt.HILLS)
 }
 
 @Composable
@@ -342,7 +357,7 @@ private fun ClubRow(a: Activity, onClick: () -> Unit) {
                     Text(a.title, style = DfiTheme.typography.cardTitle, color = c.onSurface, modifier = Modifier.weight(1f, fill = false), maxLines = 1, overflow = TextOverflow.Ellipsis)
                     if (a.isDemo) { Spacer(Modifier.width(6.dp)); Tag("Demo") }
                 }
-                Text(listOfNotNull(activityCategories[a.category], a.recurrenceText ?: a.venue).joinToString(" · "), style = DfiTheme.typography.bodySmall,
+                Text(listOfNotNull(activityCategories[a.category], a.dateLabel ?: a.recurrenceText ?: a.venue).joinToString(" · "), style = DfiTheme.typography.bodySmall,
                     color = c.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
@@ -388,19 +403,27 @@ fun ActivityDetailScreen(id: String, onBack: () -> Unit, vm: ExploreViewModel = 
                 Tag(a.kind.replaceFirstChar { it.uppercase() })
                 if (a.isDemo) Tag("Demo", color = c.warning)
                 if (a.isVerified) Tag("Verified organiser", color = c.success)
+                if (!a.isVerified && a.sourceCheckedOn != null) Tag("From official page", color = c.primaryDark, bg = c.primarySoft)
             }
             Spacer(Modifier.height(10.dp))
             Text(a.title, style = DfiTheme.typography.screenTitle, color = c.onSurface)
             Spacer(Modifier.height(12.dp))
             Detail(Icons.Rounded.Person, a.organiserName)
-            (Format.dateTime(a.startsAt) ?: a.recurrenceText)?.let { Detail(if (a.startsAt != null) Icons.Rounded.Event else Icons.Rounded.Repeat, it) }
-            a.venue?.let { Detail(Icons.Rounded.Place, it) }
+            (a.dateLabel ?: Format.dateTime(a.startsAt) ?: a.recurrenceText)?.let { Detail(if (a.startsAt != null) Icons.Rounded.Event else Icons.Rounded.Repeat, it) }
+            (a.locationText ?: a.venue)?.let { Detail(Icons.Rounded.Place, it) }
             a.eligibility?.let { Detail(Icons.Rounded.CheckCircle, "Who can join: $it") }
+            if (a.tags.isNotEmpty()) {
+                Spacer(Modifier.height(6.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    a.tags.forEach { tag -> Tag("#$tag", color = c.onSurfaceVariant) }
+                }
+            }
             a.description?.let { Spacer(Modifier.height(12.dp)); Text(it, style = DfiTheme.typography.body, color = c.onSurface) }
             a.contact?.let { Spacer(Modifier.height(12.dp)); Text("Contact: $it", style = DfiTheme.typography.bodySmall, color = c.onSurfaceVariant) }
-            a.registrationUrl?.let { url ->
-                Spacer(Modifier.height(8.dp))
-                SecondaryButton("Open registration link", { Intents.openUrl(ctx, url) }, icon = Icons.Rounded.Link)
+            val officialUrl = a.sourceUrl ?: a.registrationUrl
+            officialUrl?.let { url ->
+                Spacer(Modifier.height(12.dp))
+                SecondaryButton(if (a.sourceUrl != null) "Visit official page" else "Open registration link", { Intents.openUrl(ctx, url) }, icon = Icons.Rounded.Link)
             }
             s.message?.let { Spacer(Modifier.height(12.dp)); InfoNote(it) }
             Spacer(Modifier.height(24.dp))
