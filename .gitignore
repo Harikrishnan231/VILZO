@@ -14,3 +14,4 @@ captures/
 apks/
 *.apk
 *.aab
+!downloads/*.apk

@@ -6,8 +6,26 @@
 
 ---
 
+## 📲 Download & Install the Application (APK)
+
+For evaluators, mentors, and students who want to test the application immediately on an Android device:
+
+| Application | Description | File Size | Direct Download Link |
+|---|---|---|---|
+| **VILZO Student App** | Primary user application (Onboarding, 7 Scenario Games, Cinematic Story, Anonymous Grievances, Explore, Help Directory) | `~32.5 MB` | [📥 **Download Student App APK**](https://github.com/Harikrishnan231/VILZO/raw/main/downloads/vilzo-student-app.apk) |
+| **VILZO College Staff Portal** | Companion administrative app for college faculty and nodal officers to triage anonymous student reports | `~19.0 MB` | [📥 **Download Staff App APK**](https://github.com/Harikrishnan231/VILZO/raw/main/downloads/vilzo-college-staff-app.apk) |
+
+### Quick Installation Guide (Android):
+1. **Download:** Tap the download link above on your Android phone (or download via browser).
+2. **Open APK:** Once downloaded, tap the `.apk` file in your Downloads folder or notification bar.
+3. **Allow Installation:** If prompted with *"For your security, your phone is not allowed to install unknown apps from this source"*, tap **Settings** and toggle **Allow from this source**.
+4. **Install & Launch:** Tap **Install**, then open **VILZO** and explore!
+
+---
+
 ## Table of Contents
 
+- [📲 Download & Install the Application (APK)](#-download--install-the-application-apk)
 - [1. Executive Summary & Problem Positioning](#1-executive-summary--problem-positioning)
 - [2. Project Context: VBYLD 2027 — Hack for Social Cause](#2-project-context-vbyld-2027--hack-for-social-cause)
 - [3. Implementation Inventory](#3-implementation-inventory)
